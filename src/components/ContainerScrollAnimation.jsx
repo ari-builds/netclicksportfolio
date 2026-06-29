@@ -135,13 +135,13 @@ export function ContainerScrollAnimation() {
         style={{ scale: scaleProgress, borderRadius: borderRadius, opacity: cardOpacity }}
         className="w-full h-full max-w-6xl bg-card border shadow-2xl overflow-hidden origin-center flex items-center"
       >
-        <div className="w-full p-4 md:p-6 lg:p-8 space-y-4 md:space-y-6">
+        <div className="w-full p-3 md:p-6 lg:p-8 space-y-3 md:space-y-6">
           <motion.div
             style={{ y: firstSlideY, opacity: firstSlideOpacity }}
             className="text-center"
           >
             <span className="text-xs font-semibold text-primary uppercase tracking-[0.2em]">Case Study</span>
-            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold mt-3 tracking-tight">
+            <h2 className="text-2xl md:text-5xl lg:text-6xl font-bold mt-2 md:mt-3 tracking-tight">
               Results That <span className="text-primary">Speak</span>
             </h2>
             <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto mt-4">
@@ -151,11 +151,11 @@ export function ContainerScrollAnimation() {
 
           <motion.div
             style={{ y: secondSlideY, opacity: secondSlideOpacity }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6"
+            className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-6"
           >
             {features.map((f, i) => (
-              <div key={i} className="text-center p-4 md:p-6 rounded-xl bg-muted/50 border">
-                <div className="text-2xl md:text-4xl font-black text-primary">{f.value}</div>
+              <div key={i} className="text-center p-2 md:p-6 rounded-xl bg-muted/50 border">
+                <div className="text-lg md:text-4xl font-black text-primary">{f.value}</div>
                 <div className="text-xs md:text-sm font-semibold mt-1">{f.label}</div>
                 <div className="text-[10px] md:text-xs text-muted-foreground mt-0.5">{f.desc}</div>
               </div>
@@ -164,10 +164,10 @@ export function ContainerScrollAnimation() {
 
           <motion.div
             style={{ y: thirdSlideY, opacity: thirdSlideOpacity }}
-            className="grid md:grid-cols-4 gap-4 md:gap-6"
+            className="grid md:grid-cols-4 gap-2 md:gap-6"
           >
             {steps.map((step, i) => (
-              <div key={i} className="relative p-4 md:p-6 rounded-xl border bg-card hover:shadow-md transition-shadow group">
+              <div key={i} className="relative p-2 md:p-6 rounded-xl border bg-card hover:shadow-md transition-shadow group">
                 <span className="text-3xl md:text-5xl font-black text-primary/10 absolute top-2 right-3 select-none">0{i + 1}</span>
                 <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mb-3 group-hover:bg-primary/20 transition-colors">
                   <span className="text-sm font-bold text-primary">{i + 1}</span>
