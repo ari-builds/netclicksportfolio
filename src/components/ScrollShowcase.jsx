@@ -100,12 +100,12 @@ export function ScrollShowcase() {
               {steps.map((step, i) => (
                 <motion.div
                   key={i}
-                  className="p-6 md:p-8 flex flex-col gap-3 relative group"
+                  className="p-4 md:p-8 flex flex-col gap-3 relative group"
                   whileHover={{ scale: 1.02, zIndex: 10 }}
                   transition={{ type: "spring", stiffness: 300, damping: 20 }}
                 >
                   <div
-                    className="w-12 h-12 rounded-xl flex items-center justify-center mb-2 transition-colors"
+                    className="w-10 h-10 md:w-12 md:h-12 rounded-xl flex items-center justify-center mb-2 transition-colors"
                     style={{ backgroundColor: `${step.color}20`, color: step.color }}
                   >
                     <step.icon className="w-6 h-6" />
@@ -115,7 +115,7 @@ export function ScrollShowcase() {
                     <h3 className="text-lg font-semibold mt-1">{step.title}</h3>
                   </div>
                   <p className="text-sm text-muted-foreground">{step.desc}</p>
-                  <div className="flex flex-wrap gap-1.5 mt-auto pt-3">
+                  <div className="hidden md:flex flex-wrap gap-1.5 mt-auto pt-3">
                     {step.detail.split(", ").map((tag, j) => (
                       <span key={j}
                         className="text-[10px] px-2 py-0.5 rounded-full border text-muted-foreground"

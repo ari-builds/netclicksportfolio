@@ -41,6 +41,7 @@ export function ContainerScrollAnimation() {
     isLockedRef.current = true;
     document.documentElement.style.overflow = "hidden";
     document.body.style.overscrollBehavior = "none";
+    if (containerRef.current) containerRef.current.style.touchAction = "none";
   }, []);
 
   const unlockScroll = useCallback(() => {
@@ -49,6 +50,7 @@ export function ContainerScrollAnimation() {
     unlockTimeRef.current = Date.now();
     document.documentElement.style.overflow = "";
     document.body.style.overscrollBehavior = "";
+    if (containerRef.current) containerRef.current.style.touchAction = "";
   }, []);
 
   const advance = useCallback((dir, magnitude = 1) => {
@@ -72,6 +74,7 @@ export function ContainerScrollAnimation() {
 
   const handleTouchStart = useCallback((e) => {
     if (!isLockedRef.current) return;
+    e.preventDefault();
     touchStartYRef.current = e.touches[0].clientY;
   }, []);
 
@@ -115,7 +118,7 @@ export function ContainerScrollAnimation() {
 
     window.addEventListener("scroll", onScroll, { passive: true });
     window.addEventListener("wheel", handleWheel, { passive: false });
-    window.addEventListener("touchstart", handleTouchStart, { passive: true });
+    window.addEventListener("touchstart", handleTouchStart, { passive: false });
     window.addEventListener("touchmove", handleTouchMove, { passive: false });
     window.addEventListener("keydown", handleKeyDown);
 
@@ -164,7 +167,7 @@ export function ContainerScrollAnimation() {
 
           <motion.div
             style={{ y: thirdSlideY, opacity: thirdSlideOpacity }}
-            className="grid md:grid-cols-4 gap-2 md:gap-6"
+            className="grid grid-cols-2 md:grid-cols-4 gap-2 md:gap-6"
           >
             {steps.map((step, i) => (
               <div key={i} className="relative p-2 md:p-6 rounded-xl border bg-card hover:shadow-md transition-shadow group">
