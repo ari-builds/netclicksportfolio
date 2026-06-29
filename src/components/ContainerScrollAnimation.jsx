@@ -1,4 +1,4 @@
-import { useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { motion, useMotionValue, useTransform } from "framer-motion";
 
 const features = [
@@ -95,6 +95,7 @@ export function ContainerScrollAnimation() {
   }, [advance]);
 
   useEffect(() => {
+    if (isMobile) return;
     const el = containerRef.current;
     if (!el) return;
 
@@ -130,7 +131,52 @@ export function ContainerScrollAnimation() {
       window.removeEventListener("keydown", handleKeyDown);
       unlockScroll();
     };
-  }, [lockScroll, unlockScroll, handleWheel, handleTouchStart, handleTouchMove, handleKeyDown, progress]);
+  }, [lockScroll, unlockScroll, handleWheel, handleTouchStart, handleTouchMove, handleKeyDown, progress, isMobile]);
+
+  const [isMobile] = useState(() => window.matchMedia("(max-width: 767px)").matches);
+
+  if (isMobile) {
+    return (
+      <section className="w-full py-20 px-6 bg-gradient-to-b from-background via-primary/5 to-background">
+        <div className="max-w-6xl mx-auto">
+          <div className="w-full bg-card border shadow-2xl rounded-xl overflow-hidden">
+            <div className="w-full p-4 md:p-6 lg:p-8 space-y-4 md:space-y-6">
+              <div className="text-center">
+                <span className="text-xs font-semibold text-primary uppercase tracking-[0.2em]">Case Study</span>
+                <h2 className="text-2xl md:text-5xl lg:text-6xl font-bold mt-3 tracking-tight">
+                  Results That <span className="text-primary">Speak</span>
+                </h2>
+                <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto mt-4">
+                  Every project starts with a conversation and ends with measurable impact. Here is what we delivered.
+                </p>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
+                {features.map((f, i) => (
+                  <div key={i} className="text-center p-3 md:p-6 rounded-xl bg-muted/50 border">
+                    <div className="text-lg md:text-4xl font-black text-primary">{f.value}</div>
+                    <div className="text-xs md:text-sm font-semibold mt-1">{f.label}</div>
+                    <div className="text-[10px] md:text-xs text-muted-foreground mt-0.5">{f.desc}</div>
+                  </div>
+                ))}
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-6">
+                {steps.map((step, i) => (
+                  <div key={i} className="relative p-3 md:p-6 rounded-xl border bg-card hover:shadow-md transition-shadow group">
+                    <span className="text-3xl md:text-5xl font-black text-primary/10 absolute top-2 right-3 select-none">0{i + 1}</span>
+                    <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center mb-3 group-hover:bg-primary/20 transition-colors">
+                      <span className="text-sm font-bold text-primary">{i + 1}</span>
+                    </div>
+                    <h4 className="font-semibold text-sm md:text-base">{step.title}</h4>
+                    <p className="text-[11px] md:text-xs text-muted-foreground mt-2 leading-relaxed">{step.desc}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section ref={containerRef} className="w-full relative overflow-hidden bg-gradient-to-b from-background via-primary/5 to-background flex items-center justify-center p-1" style={{ height: "100vh" }}>

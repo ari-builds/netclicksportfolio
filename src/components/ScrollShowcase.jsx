@@ -35,6 +35,8 @@ export function ScrollShowcase() {
     return () => clearInterval(t);
   }, []);
 
+  const [isMobile] = useState(() => window.matchMedia("(max-width: 767px)").matches);
+
   const containerRef = useRef(null);
 
   const { scrollYProgress } = useScroll({
@@ -48,6 +50,45 @@ export function ScrollShowcase() {
   const bgScale = useTransform(scrollYProgress, [0, 0.45, 1], [0.9, 1.1, 0.9]);
   const titleY = useTransform(scrollYProgress, [0, 0.15], [50, 0]);
   const titleOpacity = useTransform(scrollYProgress, [0, 0.15, 0.5, 0.7], [0, 1, 1, 0]);
+
+  if (isMobile) {
+    return (
+      <section id="process" className="w-full py-20 px-6">
+        <div className="max-w-6xl mx-auto">
+          <div className="text-center mb-12">
+            <span className="text-sm font-medium text-primary uppercase tracking-widest">Our Process</span>
+            <h2 className="text-4xl md:text-6xl font-bold mt-4">
+              From <span className="text-primary">{ideaTexts[ideaIdx]}</span> to Launch
+            </h2>
+            <p className="text-muted-foreground mt-4 max-w-xl mx-auto">
+              A proven workflow that takes your project from concept to completion
+            </p>
+          </div>
+          <div className="grid md:grid-cols-3 gap-6">
+            {steps.map((step, i) => (
+              <div key={i} className="p-6 rounded-2xl border bg-card/50 backdrop-blur-sm shadow-xl flex flex-col gap-3">
+                <div className="w-12 h-12 rounded-xl flex items-center justify-center mb-2"
+                  style={{ backgroundColor: `${step.color}20`, color: step.color }}
+                >
+                  <step.icon className="w-6 h-6" />
+                </div>
+                <div>
+                  <span className="text-xs font-mono text-muted-foreground">0{i + 1}</span>
+                  <h3 className="text-lg font-semibold mt-1">{step.title}</h3>
+                </div>
+                <p className="text-sm text-muted-foreground">{step.desc}</p>
+                <div className="flex flex-wrap gap-1.5 mt-auto pt-3">
+                  {step.detail.split(", ").map((tag, j) => (
+                    <span key={j} className="text-[10px] px-2 py-0.5 rounded-full border text-muted-foreground">{tag}</span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="process" ref={containerRef} className="w-full relative" style={{ height: "300vh" }}>
