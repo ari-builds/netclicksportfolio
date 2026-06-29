@@ -193,7 +193,7 @@ export function LaunchDemo() {
 
         <div className="flex flex-col md:flex-row gap-4 md:gap-6 items-start justify-center max-w-5xl mx-auto">
           {demos.map((demo, i) => {
-            const offsets = [20, -15, 25];
+            const mtClasses = ['md:mt-[20px]', 'md:-mt-[15px]', 'md:mt-[25px]'];
             return (
               <motion.div
                 key={demo.title}
@@ -201,8 +201,7 @@ export function LaunchDemo() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.6, delay: 0.2 + i * 0.12 }}
-                className="w-full md:w-1/3 group"
-                style={{ marginTop: `${offsets[i]}px` }}
+                className={`w-full md:w-1/3 group ${mtClasses[i]}`}
               >
                 <div className="relative rounded-xl border bg-card/60 backdrop-blur overflow-hidden shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300">
                   <div className="absolute top-3 left-3 z-10">

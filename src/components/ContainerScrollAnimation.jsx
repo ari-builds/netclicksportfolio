@@ -80,7 +80,7 @@ export function ContainerScrollAnimation() {
     e.preventDefault();
     const delta = touchStartYRef.current - e.touches[0].clientY;
     touchStartYRef.current = e.touches[0].clientY;
-    advance(delta > 0 ? 1 : -1, Math.min(3, Math.abs(delta) / 40));
+    advance(delta > 0 ? 1 : -1, Math.min(3, Math.abs(delta) / 10));
   }, [advance]);
 
   const handleKeyDown = useCallback((e) => {
