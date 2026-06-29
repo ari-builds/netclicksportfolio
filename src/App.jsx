@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom"
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom"
+import { useEffect } from "react"
 import { Hero } from "@/components/Hero"
 import { Services } from "@/components/Services"
 import { Portfolio3D } from "@/components/Portfolio3D"
@@ -9,6 +10,19 @@ import { ContainerScrollAnimation } from "@/components/ContainerScrollAnimation"
 import { Testimonials } from "@/components/Testimonials"
 import { Footer } from "@/components/Footer"
 import { DemoPage } from "@/components/DemoPage"
+
+function RedirectHandler() {
+  const navigate = useNavigate()
+  useEffect(() => {
+    const redirect = sessionStorage.getItem("redirect")
+    if (redirect) {
+      sessionStorage.removeItem("redirect")
+      const path = redirect.replace("/netclicksportfolio", "")
+      navigate(path, { replace: true })
+    }
+  }, [navigate])
+  return null
+}
 
 function HomePage() {
   return (
@@ -42,7 +56,8 @@ function HomePage() {
 
 function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/netclicksportfolio">
+      <RedirectHandler />
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/demo/:slug" element={<DemoPage />} />

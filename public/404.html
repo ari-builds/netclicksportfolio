@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting...</title>
+  <script>
+    (function () {
+      var segment = "/netclicksportfolio";
+      var path = location.pathname.replace(new RegExp("^" + segment), "");
+      if (path === "" || path === "/") path = "/";
+      sessionStorage.redirect = location.pathname + location.search + location.hash;
+      location.replace(segment + "/");
+    })();
+  </script>
+</head>
+<body></body>
+</html>
