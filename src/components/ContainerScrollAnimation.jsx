@@ -24,6 +24,8 @@ export function ContainerScrollAnimation() {
   const initialFireRef = useRef(false);
   const unlockTimeRef = useRef(0);
 
+  const [isMobile] = useState(() => window.matchMedia("(max-width: 767px)").matches);
+
   const progress = useMotionValue(0);
 
   const scaleProgress = useTransform(progress, [0, 0.3], [0.4, 1]);
@@ -132,8 +134,6 @@ export function ContainerScrollAnimation() {
       unlockScroll();
     };
   }, [lockScroll, unlockScroll, handleWheel, handleTouchStart, handleTouchMove, handleKeyDown, progress, isMobile]);
-
-  const [isMobile] = useState(() => window.matchMedia("(max-width: 767px)").matches);
 
   if (isMobile) {
     return (
