@@ -15,6 +15,7 @@ import BizSalonPage from "../biz/biz-salon/page"
 import BizBakeryPage from "../biz/biz-bakery/page"
 import BizLandscaperPage from "../biz/biz-landscaper/page"
 
+
 const products = [
   { name: "Merino Wool Coat", price: "$890", img: "https://images.unsplash.com/photo-1539533113208-f6df8cc8b543?w=400&h=500&fit=crop", desc: "Luxurious Italian merino wool, tailored in Florence.", category: "clothing" },
   { name: "Silk Evening Gown", price: "$1,290", img: "https://images.unsplash.com/photo-1566174053879-31528523f8ae?w=400&h=500&fit=crop", desc: "Hand-finished silk charmeuse with crystal accents.", category: "clothing" },

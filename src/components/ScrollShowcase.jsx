@@ -42,12 +42,12 @@ export function ScrollShowcase() {
     offset: ["start end", "end start"]
   });
 
-  const cardRotateX = useTransform(scrollYProgress, [0, 0.3], [15, 0]);
-  const cardScale = useTransform(scrollYProgress, [0, 0.3], [0.85, 1]);
-  const cardOpacity = useTransform(scrollYProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0]);
-  const bgScale = useTransform(scrollYProgress, [0, 0.5, 1], [0.9, 1.1, 0.9]);
-  const titleY = useTransform(scrollYProgress, [0, 0.2], [50, 0]);
-  const titleOpacity = useTransform(scrollYProgress, [0, 0.2, 0.5, 0.7], [0, 1, 1, 0]);
+  const cardRotateX = useTransform(scrollYProgress, [0, 0.25], [15, 0]);
+  const cardScale = useTransform(scrollYProgress, [0, 0.25], [0.85, 1]);
+  const cardOpacity = useTransform(scrollYProgress, [0, 0.1, 0.9, 1], [0, 1, 1, 0]);
+  const bgScale = useTransform(scrollYProgress, [0, 0.45, 1], [0.9, 1.1, 0.9]);
+  const titleY = useTransform(scrollYProgress, [0, 0.15], [50, 0]);
+  const titleOpacity = useTransform(scrollYProgress, [0, 0.15, 0.5, 0.7], [0, 1, 1, 0]);
 
   return (
     <section id="process" ref={containerRef} className="w-full relative" style={{ height: "300vh" }}>

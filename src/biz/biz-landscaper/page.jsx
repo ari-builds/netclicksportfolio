@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import { ArrowRight, X, Menu, Phone, Mail, MapPin, CheckCircle, Quote, Sparkles, Star, Clock, Scissors, Coffee, Heart, Leaf, Sun, ChevronRight } from "lucide-react"
+import { ArrowRight, X, Menu, Phone, Mail, MapPin, CheckCircle, Quote, Sparkles, Star, Clock, Scissors, Coffee, Heart, Leaf, Sun, ChevronRight, ExternalLink } from "lucide-react"
 import { Link } from "react-router-dom"
 import config from "./config"
 
@@ -81,6 +81,12 @@ export default function BizLandscaperPage() {
               <button onClick={() => contactRef.current?.scrollIntoView({ behavior: "smooth" })} className="inline-flex items-center gap-1.5 px-6 py-2.5 rounded-full border border-white/30 text-sm font-medium text-white hover:bg-white/10 transition-all">
                 Visit Us
               </button>
+              {config.liveUrl && (
+                <a href={config.liveUrl} target="_blank" rel="noopener noreferrer"
+                  className="inline-flex items-center gap-1.5 px-6 py-2.5 rounded-full text-sm font-medium text-white transition-all bg-white/20 backdrop-blur hover:bg-white/30 border border-white/40">
+                  Live Site <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              )}
             </div>
           </motion.div>
         </div>

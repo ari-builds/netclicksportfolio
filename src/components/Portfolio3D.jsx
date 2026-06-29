@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { Link } from "react-router-dom";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 
 const projects = [
@@ -83,7 +84,7 @@ function ProjectCard({ project, index }) {
         className="relative overflow-hidden rounded-2xl border bg-card cursor-pointer transition-transform duration-200 ease-out"
         style={{ transformStyle: "preserve-3d" }}
       >
-        <a href={project.href} className="block">
+        <Link to={project.href} className="block">
           <div className="aspect-[4/3] overflow-hidden">
             <img
               src={project.image}
@@ -108,7 +109,7 @@ function ProjectCard({ project, index }) {
               </svg>
             </div>
           </div>
-        </a>
+        </Link>
       </div>
     </motion.div>
   );

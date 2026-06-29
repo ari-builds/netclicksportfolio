@@ -24,15 +24,17 @@ export function Hero() {
     <AuroraBackground className="w-full min-h-screen">
       <div className="container mx-auto px-4 relative z-10">
         <div className="flex gap-8 py-20 lg:py-40 items-center justify-center flex-col">
-          <motion.div
+          <motion.a href="#work"
             initial={{ opacity: 0, y: -10, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.5, delay: 0.1 }}
+            whileHover={{ scale: 1.03 }}
+            whileTap={{ scale: 0.97 }}
           >
-            <Button variant="secondary" size="sm" className="gap-4 rounded-full">
+            <Button variant="secondary" size="sm" className="gap-4 rounded-full cursor-pointer">
               <Sparkles className="w-4 h-4" /> View our work <MoveRight className="w-4 h-4" />
             </Button>
-          </motion.div>
+          </motion.a>
           <div className="flex gap-4 flex-col">
             <h1 className="text-5xl md:text-7xl max-w-2xl tracking-tighter text-center font-regular">
               <span className="text-spektr-cyan-50">We build</span>
@@ -72,7 +74,7 @@ export function Hero() {
             transition={{ duration: 0.6, delay: 0.35 }}
             className="flex flex-row gap-3"
           >
-            <motion.a href="#contact" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
+            <motion.a href="#cta" whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
               <Button size="lg" className="gap-4" variant="outline">
                 Get in touch <PhoneCall className="w-4 h-4" />
               </Button>
