@@ -56,7 +56,7 @@ export function Hero() {
                   </motion.span>
                 ))}
               </span>
-              <span className="block">websites for your brand</span>
+              <span className="block">digital solutions for your brand</span>
             </h1>
             <motion.p
               initial={{ opacity: 0, y: 15 }}
