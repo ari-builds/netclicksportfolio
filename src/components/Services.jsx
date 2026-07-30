@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Palette, Monitor, ShoppingCart, Search, Smartphone, Rocket, Database, Send, Bot, ArrowRight } from "lucide-react";
+import { Palette, Monitor, ShoppingCart, Search, Smartphone, Rocket, Database, Send, Bot, Share2, Mic2, GitBranch, Archive, BarChart3, Wrench, Tablet, Plug, ArrowRight } from "lucide-react";
 
 
 const services = [
@@ -48,6 +48,46 @@ const services = [
     icon: Bot,
     title: "AI Automation",
     description: "Smart chatbots, automated booking, follow-up workflows, and AI receptionists that handle your business 24/7."
+  },
+  {
+    icon: Share2,
+    title: "Social Media Autopilot",
+    description: "Content scheduling, cross-platform posting, and engagement automation that keeps your brand active without the daily grind."
+  },
+  {
+    icon: Mic2,
+    title: "AI Voice Agent",
+    description: "Voice-controlled AI copilot that hears commands, talks back, and can see screens, navigate apps, and automate tasks."
+  },
+  {
+    icon: GitBranch,
+    title: "Business Automation Workflows",
+    description: "Custom pipelines connecting CRMs, email, calendars, and SMS into unified systems that run on autopilot."
+  },
+  {
+    icon: Archive,
+    title: "Content Vault & Management",
+    description: "Centralized asset storage, AI-powered content generation, and automated repurposing across all your channels."
+  },
+  {
+    icon: BarChart3,
+    title: "Analytics Dashboards",
+    description: "Custom reporting, conversion tracking, lead source attribution, and real-time metrics that actually inform decisions."
+  },
+  {
+    icon: Wrench,
+    title: "Website Maintenance & Support",
+    description: "Hosting, updates, security monitoring, backups, and ongoing support so your site never skips a beat."
+  },
+  {
+    icon: Tablet,
+    title: "Mobile App Development",
+    description: "Cross-platform iOS and Android apps built with modern frameworks for a native feel on every device."
+  },
+  {
+    icon: Plug,
+    title: "API & Integration Development",
+    description: "Custom connectors between your tools — CRMs, payment gateways, analytics, and legacy systems talking to each other."
   }
 ];
 
