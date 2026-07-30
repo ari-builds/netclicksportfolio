@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Palette, Monitor, ShoppingCart, Search, Smartphone, Rocket, ArrowRight } from "lucide-react";
+import { Palette, Monitor, ShoppingCart, Search, Smartphone, Rocket, Database, Send, Bot, ArrowRight } from "lucide-react";
 
 
 const services = [
@@ -33,6 +33,21 @@ const services = [
     icon: Rocket,
     title: "Performance",
     description: "Lightning-fast load times and smooth interactions that keep users engaged."
+  },
+  {
+    icon: Database,
+    title: "Lead Generation",
+    description: "Custom scrapers, Google Maps mining, and data enrichment pipelines that find your ideal prospects at scale."
+  },
+  {
+    icon: Send,
+    title: "AI Outreach Campaigns",
+    description: "Research-backed cold email sequences that visit each lead's site, analyze their business, and personalize every message."
+  },
+  {
+    icon: Bot,
+    title: "AI Automation",
+    description: "Smart chatbots, automated booking, follow-up workflows, and AI receptionists that handle your business 24/7."
   }
 ];
 
