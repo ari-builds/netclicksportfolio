@@ -14,6 +14,7 @@ import BizBarberPage from "../biz/biz-barber/page"
 import BizSalonPage from "../biz/biz-salon/page"
 import BizBakeryPage from "../biz/biz-bakery/page"
 import BizLandscaperPage from "../biz/biz-landscaper/page"
+import { services, ServicePage } from "../svc"
 
 
 const products = [
@@ -1244,6 +1245,24 @@ export function DemoPage() {
   if (slug === "biz-salon") return <BizSalonPage />
   if (slug === "biz-bakery") return <BizBakeryPage />
   if (slug === "biz-landscaper") return <BizLandscaperPage />
+
+  if (slug === "svc-web-design") return <ServicePage service={services.find(s => s.slug === "svc-web-design")} />
+  if (slug === "svc-web-dev") return <ServicePage service={services.find(s => s.slug === "svc-web-dev")} />
+  if (slug === "svc-ecommerce") return <ServicePage service={services.find(s => s.slug === "svc-ecommerce")} />
+  if (slug === "svc-seo") return <ServicePage service={services.find(s => s.slug === "svc-seo")} />
+  if (slug === "svc-responsive") return <ServicePage service={services.find(s => s.slug === "svc-responsive")} />
+  if (slug === "svc-performance") return <ServicePage service={services.find(s => s.slug === "svc-performance")} />
+  if (slug === "svc-leadgen") return <ServicePage service={services.find(s => s.slug === "svc-leadgen")} />
+  if (slug === "svc-outreach") return <ServicePage service={services.find(s => s.slug === "svc-outreach")} />
+  if (slug === "svc-ai-auto") return <ServicePage service={services.find(s => s.slug === "svc-ai-auto")} />
+  if (slug === "svc-social") return <ServicePage service={services.find(s => s.slug === "svc-social")} />
+  if (slug === "svc-voice") return <ServicePage service={services.find(s => s.slug === "svc-voice")} />
+  if (slug === "svc-workflows") return <ServicePage service={services.find(s => s.slug === "svc-workflows")} />
+  if (slug === "svc-content") return <ServicePage service={services.find(s => s.slug === "svc-content")} />
+  if (slug === "svc-analytics") return <ServicePage service={services.find(s => s.slug === "svc-analytics")} />
+  if (slug === "svc-maintenance") return <ServicePage service={services.find(s => s.slug === "svc-maintenance")} />
+  if (slug === "svc-mobile") return <ServicePage service={services.find(s => s.slug === "svc-mobile")} />
+  if (slug === "svc-api") return <ServicePage service={services.find(s => s.slug === "svc-api")} />
 
   const demos = [
     {
