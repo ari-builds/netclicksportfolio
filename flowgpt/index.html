@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FlowGPT — The World's First AI-Powered Smart Water Bottle</title>
+  <meta name="description" content="FlowGPT. Hydration, reimagined with AI. The world's most unnecessarily sophisticated water bottle." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #050510;
+      --surface: #0a0a1a;
+      --text: #f0f0f5;
+      --muted: #6b6b80;
+      --accent: #3b82f6;
+      --accent-glow: rgba(59, 130, 246, 0.15);
+      --red: #ef4444;
+      --green: #22c55e;
+    }
+    html { background: var(--bg); scroll-behavior: smooth; }
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+    .font-display { font-family: 'Syne', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* NAV */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.25rem 2rem;
+      background: rgba(5, 5, 16, 0.8);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+    }
+    .nav-logo { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 1.25rem; color: var(--text); text-decoration: none; }
+    .nav-logo span { color: var(--accent); }
+    .nav-links { display: flex; gap: 2rem; }
+    .nav-links a { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); text-decoration: none; transition: color 0.3s; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta { font-size: 0.75rem; padding: 0.5rem 1.25rem; border-radius: 999px; border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04); color: var(--text); cursor: pointer; transition: all 0.3s; text-decoration: none; }
+    .nav-cta:hover { background: var(--accent-glow); border-color: var(--accent); }
+
+    /* SECTIONS */
+    section {
+      position: relative; min-height: 100vh;
+      display: flex; align-items: center; justify-content: center;
+      padding: 6rem 2rem;
+    }
+    .section-inner { max-width: 1100px; width: 100%; }
+
+    /* HERO */
+    .hero { text-align: center; min-height: 100vh; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.4rem 1rem; border-radius: 999px;
+      border: 1px solid rgba(59, 130, 246, 0.3);
+      background: rgba(59, 130, 246, 0.08);
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em;
+      color: var(--accent); margin-bottom: 2rem;
+    }
+    .hero-badge::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--accent); animation: pulse 2s infinite; }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.3; } }
+    .hero h1 { font-family: 'Syne', sans-serif; font-weight: 800; font-size: clamp(3rem, 8vw, 7rem); line-height: 1; letter-spacing: -0.03em; margin-bottom: 1.5rem; }
+    .hero h1 span { color: var(--accent); }
+    .hero-sub { font-size: 1.1rem; color: var(--muted); max-width: 500px; margin: 0 auto 3rem; line-height: 1.6; }
+    .hero-sub em { font-style: italic; color: var(--text); }
+
+    /* Product showcase */
+    .product-showcase {
+      width: 200px; height: 300px; margin: 0 auto 3rem;
+      background: linear-gradient(180deg, rgba(59,130,246,0.1), rgba(59,130,246,0.02));
+      border-radius: 24px; border: 1px solid rgba(59,130,246,0.15);
+      display: flex; align-items: center; justify-content: center;
+      position: relative; overflow: hidden;
+    }
+    .product-showcase::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 30%, rgba(59,130,246,0.2), transparent 70%);
+    }
+    .bottle-icon { font-size: 5rem; position: relative; z-index: 1; filter: drop-shadow(0 0 30px rgba(59,130,246,0.3)); }
+
+    /* Designer card */
+    .designer-card {
+      display: inline-flex; flex-direction: column; align-items: center; gap: 0.5rem;
+      padding: 1rem 1.5rem; border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+      font-size: 0.8rem; color: var(--muted);
+    }
+    .designer-card strong { color: var(--text); font-weight: 600; }
+
+    /* AI Section */
+    .ai-section { background: var(--surface); }
+    .ai-reveal {
+      text-align: center; font-size: 1.2rem; color: var(--muted); line-height: 1.8;
+    }
+    .ai-reveal .punchline {
+      display: inline-block; margin-top: 1.5rem;
+      padding: 0.5rem 1.5rem; border-radius: 8px;
+      background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2);
+      color: var(--red); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;
+    }
+
+    /* Wearable */
+    .wearable-section { text-align: center; }
+    .gallery-scroll {
+      display: flex; gap: 1rem; overflow-x: auto; padding: 2rem 0;
+      scrollbar-width: none;
+    }
+    .gallery-scroll::-webkit-scrollbar { display: none; }
+    .gallery-item {
+      flex: 0 0 200px; height: 260px; border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 0.75rem; padding: 1.5rem; text-align: center;
+    }
+    .gallery-item .icon { font-size: 3rem; }
+    .gallery-item .label { font-size: 0.75rem; color: var(--muted); }
+    .magazine-card {
+      margin: 3rem auto 0; max-width: 350px; padding: 2rem;
+      border-radius: 16px; border: 1px solid rgba(255,255,255,0.08);
+      background: linear-gradient(135deg, rgba(59,130,246,0.08), rgba(139,92,246,0.08));
+      text-align: center;
+    }
+    .magazine-card .issue { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); margin-bottom: 0.75rem; }
+    .magazine-card h3 { font-family: 'Syne', sans-serif; font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+    .magazine-card p { font-size: 0.8rem; color: var(--muted); }
+
+    /* Features */
+    .features-section { background: var(--surface); }
+    .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2rem; }
+    .feature-card {
+      padding: 2rem; border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+    }
+    .feature-card h3 { font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem; }
+    .feature-card p { font-size: 0.85rem; color: var(--muted); line-height: 1.6; }
+    .feature-card .stat { font-family: 'JetBrains Mono', monospace; font-size: 2rem; font-weight: 700; color: var(--accent); margin: 1rem 0 0.5rem; }
+    .feature-card .stat-label { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted); }
+
+    /* Slider */
+    .slider-container { margin-top: 1.5rem; }
+    .slider-labels { display: flex; justify-content: space-between; font-size: 0.65rem; color: var(--muted); font-family: 'JetBrains Mono', monospace; margin-bottom: 0.5rem; }
+    input[type="range"] {
+      -webkit-appearance: none; width: 100%; height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--red));
+      border-radius: 2px; outline: none;
+    }
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none; width: 18px; height: 18px;
+      border-radius: 50%; background: white; cursor: pointer;
+      box-shadow: 0 0 12px rgba(59,130,246,0.5);
+    }
+    #temp-value { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; color: var(--accent); margin-top: 0.5rem; text-align: center; }
+
+    /* Encryption */
+    .encryption-section { text-align: center; }
+    .encrypt-box {
+      max-width: 400px; margin: 2rem auto; padding: 2rem;
+      border-radius: 20px; border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+    }
+    .encrypt-input {
+      width: 100%; padding: 0.75rem 1rem; border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04);
+      color: var(--text); font-family: 'JetBrains Mono', monospace; font-size: 0.9rem;
+      text-align: center; outline: none; margin-bottom: 1rem;
+    }
+    .encrypt-input:focus { border-color: var(--accent); }
+    .encrypt-btns { display: flex; gap: 0.75rem; }
+    .encrypt-btns button {
+      flex: 1; padding: 0.6rem; border-radius: 10px;
+      border: 1px solid rgba(255,255,255,0.1); background: rgba(255,255,255,0.04);
+      color: var(--text); font-size: 0.8rem; cursor: pointer; transition: all 0.3s;
+    }
+    .encrypt-btns button:hover { background: var(--accent-glow); border-color: var(--accent); }
+    #encrypted-output {
+      margin-top: 1rem; padding: 0.75rem; border-radius: 10px;
+      background: rgba(59,130,246,0.08); font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem; color: var(--accent); min-height: 2.5rem;
+      display: flex; align-items: center; justify-content: center;
+    }
+
+    /* Grip */
+    .grip-section { background: var(--surface); text-align: center; }
+    .grip-stat { font-family: 'JetBrains Mono', monospace; font-size: 4rem; font-weight: 700; color: var(--accent); }
+    .grip-label { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.2em; color: var(--muted); margin-top: 0.5rem; }
+
+    /* Sustainability */
+    .sustain-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+    .sustain-card {
+      padding: 1.5rem; border-radius: 16px;
+      border: 1px solid rgba(34,197,94,0.15);
+      background: rgba(34,197,94,0.04);
+      text-align: center;
+    }
+    .sustain-card .big { font-family: 'Syne', sans-serif; font-size: 2.5rem; font-weight: 800; color: var(--green); }
+    .sustain-card h4 { font-size: 0.85rem; font-weight: 600; margin: 0.5rem 0; }
+    .sustain-card p { font-size: 0.75rem; color: var(--muted); line-height: 1.5; }
+
+    /* Reviews */
+    .reviews-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+    .review-card {
+      padding: 1.5rem; border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+    }
+    .review-stars { color: #eab308; font-size: 0.85rem; margin-bottom: 0.75rem; }
+    .review-text { font-size: 0.85rem; color: var(--muted); line-height: 1.6; margin-bottom: 1rem; font-style: italic; }
+    .review-author { font-size: 0.75rem; font-weight: 600; }
+    .review-role { font-size: 0.7rem; color: var(--muted); }
+
+    /* Tech Specs Carousel */
+    .specs-section { background: var(--surface); overflow: hidden; }
+    .specs-scroll {
+      display: flex; gap: 1.5rem; overflow-x: auto; padding: 2rem 0;
+      scrollbar-width: none;
+    }
+    .specs-scroll::-webkit-scrollbar { display: none; }
+    .spec-card {
+      flex: 0 0 240px; padding: 1.5rem; border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+      text-align: center;
+    }
+    .spec-card .icon { font-size: 2.5rem; margin-bottom: 0.75rem; }
+    .spec-card h4 { font-size: 0.85rem; font-weight: 600; margin-bottom: 0.5rem; }
+    .spec-card p { font-size: 0.75rem; color: var(--muted); line-height: 1.5; }
+
+    /* Product Tiers */
+    .tiers-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; margin-top: 2rem; }
+    .tier-card {
+      padding: 2rem; border-radius: 20px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(255,255,255,0.02);
+      text-align: center; position: relative;
+    }
+    .tier-card.featured { border-color: var(--accent); background: rgba(59,130,246,0.04); }
+    .tier-card.featured::before {
+      content: 'NEW'; position: absolute; top: -10px; left: 50%; transform: translateX(-50%);
+      padding: 0.2rem 0.75rem; border-radius: 999px;
+      background: var(--accent); color: white; font-size: 0.6rem;
+      text-transform: uppercase; letter-spacing: 0.15em; font-weight: 600;
+    }
+    .tier-card h3 { font-family: 'Syne', sans-serif; font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+    .tier-card .tagline { font-size: 0.8rem; color: var(--muted); margin-bottom: 1rem; line-height: 1.5; }
+    .tier-specs { text-align: left; font-size: 0.75rem; color: var(--muted); line-height: 2; }
+    .tier-specs span { color: var(--text); font-weight: 500; }
+
+    /* Compare Table */
+    .compare-table {
+      width: 100%; margin-top: 2rem; border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+    .compare-table th, .compare-table td {
+      padding: 0.75rem 1rem; text-align: center;
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+    }
+    .compare-table th { font-weight: 600; color: var(--text); font-size: 0.75rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    .compare-table td { color: var(--muted); }
+    .compare-table td:first-child { text-align: left; color: var(--text); font-weight: 500; }
+
+    /* Open Weight */
+    .openweight-section { text-align: center; background: var(--surface); }
+    .paper-box {
+      max-width: 600px; margin: 2rem auto; padding: 2rem;
+      border-radius: 16px; border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.02);
+      text-align: left; font-size: 0.8rem; color: var(--muted); line-height: 1.7;
+    }
+    .paper-box h4 { color: var(--text); font-weight: 600; margin: 1rem 0 0.5rem; font-size: 0.85rem; }
+    .paper-box .bibtex {
+      margin-top: 1rem; padding: 1rem; border-radius: 8px;
+      background: rgba(0,0,0,0.3); font-family: 'JetBrains Mono', monospace;
+      font-size: 0.7rem; color: var(--accent); white-space: pre-wrap;
+    }
+
+    /* Footer */
+    .flowgpt-footer {
+      padding: 4rem 2rem; text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.04);
+    }
+    .flowgpt-footer .reveal-text {
+      font-family: 'Syne', sans-serif; font-size: clamp(1rem, 2.5vw, 1.5rem);
+      font-weight: 600; max-width: 600px; margin: 0 auto 2rem; line-height: 1.5;
+    }
+    .flowgpt-footer .reveal-text span { color: var(--accent); }
+    .footer-links { display: flex; justify-content: center; gap: 1.5rem; margin-bottom: 1rem; }
+    .footer-links a { font-size: 0.75rem; color: var(--muted); text-decoration: none; transition: color 0.3s; }
+    .footer-links a:hover { color: var(--text); }
+    .disclaimer { font-size: 0.65rem; color: var(--muted); max-width: 500px; margin: 2rem auto 0; line-height: 1.5; }
+
+    /* Scroll progress */
+    .scroll-progress {
+      position: fixed; right: 1rem; top: 50%; transform: translateY(-50%);
+      z-index: 50; display: flex; flex-direction: column; align-items: center; gap: 0.5rem;
+    }
+    .scroll-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--muted); transition: all 0.3s;
+    }
+    .scroll-dot.active { background: var(--accent); transform: scale(1.5); }
+
+    /* Section headings */
+    .section-label {
+      font-size: 0.7rem; text-transform: uppercase; letter-spacing: 0.2em;
+      color: var(--accent); margin-bottom: 0.75rem;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif; font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 800; line-height: 1.1; margin-bottom: 1rem;
+    }
+    .section-sub { font-size: 1rem; color: var(--muted); max-width: 600px; line-height: 1.6; }
+
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(30px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      section { padding: 4rem 1.25rem; }
+      .tiers-grid { grid-template-columns: 1fr; }
+      .compare-table { font-size: 0.7rem; }
+      .compare-table th, .compare-table td { padding: 0.5rem; }
+      .scroll-progress { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav">
+    <a href="/flowgpt/" class="nav-logo">Flow<span>GPT</span></a>
+    <div class="nav-links">
+      <a href="#ai">AI</a>
+      <a href="#features">Features</a>
+      <a href="#product">Product</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="/" class="nav-cta">NetClicks by Ari</a>
+  </nav>
+
+  <!-- SCROLL PROGRESS -->
+  <div class="scroll-progress" id="scroll-progress"></div>
+
+  <!-- 1. HERO -->
+  <section id="hero" class="hero">
+    <div class="section-inner" style="text-align:center;">
+      <div class="hero-badge">Hydra-7B Model</div>
+      <h1 class="reveal"><span>Flow</span>GPT</h1>
+      <p class="hero-sub reveal">The world's first <em>AI-powered smart water bottle.</em> Designed to hydrate, insulate, and think in all the right ways. FlowGPT makes the simplest moment feel intelligent.</p>
+      <div class="product-showcase reveal">
+        <div class="bottle-icon">💧</div>
+      </div>
+      <div class="designer-card reveal">
+        <strong>Designed by NetClicks by Ari</strong>
+        <span>The world's most unnecessarily sophisticated water bottle.</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. AI REVEAL -->
+  <section id="ai" class="ai-section">
+    <div class="section-inner" style="text-align:center;">
+      <div class="section-label reveal">AI Breakthrough</div>
+      <div class="ai-reveal reveal">
+        <p>FlowGPT is not just a water bottle. It is the result of <strong style="color:var(--text)">unprecedented AI* breakthroughs.</strong></p>
+        <p style="margin-top:1rem;"><strong style="color:var(--accent)">Powered by Hydra-7B</strong></p>
+        <div class="punchline">* It is a water bottle.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3. WEARABLE -->
+  <section id="wearable" class="wearable-section">
+    <div class="section-inner">
+      <div class="section-label reveal" style="text-align:center;">Portable Intelligence</div>
+      <h2 class="section-title reveal" style="text-align:center;">So portable, it is <span style="color:var(--accent)">wearable.</span></h2>
+      <p class="section-sub reveal" style="text-align:center;margin:0 auto 2rem;">This stunt was performed by professionals. Do not attempt this at home.</p>
+
+      <div class="gallery-scroll reveal">
+        <div class="gallery-item"><div class="icon">🤳</div><div class="label">Selfie Mode</div></div>
+        <div class="gallery-item"><div class="icon">🧘</div><div class="label">Yoga Approved</div></div>
+        <div class="gallery-item"><div class="icon">👔</div><div class="label">Business Casual</div></div>
+        <div class="gallery-item"><div class="icon">🕶️</div><div class="label">Discrete Carry</div></div>
+        <div class="gallery-item"><div class="icon">🏋️</div><div class="label">Gym Essential</div></div>
+        <div class="gallery-item"><div class="icon">🎒</div><div class="label">Backpack Clip</div></div>
+        <div class="gallery-item"><div class="icon">🎨</div><div class="label">Art Gallery</div></div>
+        <div class="gallery-item"><div class="icon">🎬</div><div class="label">Red Carpet</div></div>
+      </div>
+
+      <div class="magazine-card reveal">
+        <div class="issue">Issue No. 00124</div>
+        <h3>AI SLOP IDEAS FOR THIS WINTER</h3>
+        <p>We Are So Cooked! FlowGPT is taking everyone's hydration... and replacing it with AI.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. FEATURES -->
+  <section id="features" class="features-section">
+    <div class="section-inner">
+      <div class="section-label reveal">Capabilities</div>
+      <h2 class="section-title reveal">Features that <span style="color:var(--accent)">hydrate</span> beyond measure.</h2>
+
+      <div class="features-grid" style="margin-top:2rem;">
+        <div class="feature-card reveal">
+          <h3>Rise Above Mediocrity</h3>
+          <p>With a precision-engineered lift (exactly 2.5 inches), FlowGPT does not just hold your desk. It elevates it. Literally. Above every boring surface you have ever known.</p>
+          <div class="stat">2.5"</div>
+          <div class="stat-label">Precision lift height</div>
+        </div>
+
+        <div class="feature-card reveal">
+          <h3>Neural Temperature Control</h3>
+          <p>From piping-hot coffee to ice-cold water. FlowGPT stays perfectly stable. Your desk already tapped out three sips ago.</p>
+          <div class="slider-container">
+            <div class="slider-labels">
+              <span>Creative T=10</span>
+              <span>Balanced T=1</span>
+              <span>Deterministic T=0.1</span>
+            </div>
+            <input type="range" min="1" max="10" value="5" id="temp-slider" />
+            <div id="temp-value">T = 5.0 | Adaptive Thermal Regulation</div>
+          </div>
+        </div>
+
+        <div class="feature-card reveal">
+          <h3>Perfectly Cylindrical. Seriously.</h3>
+          <p>Our engineers recalibrated its circumference with disturbing levels of attention to detail — just because they could.</p>
+          <div class="stat">99.7%</div>
+          <div class="stat-label">Cylindrical accuracy (RoHyC: Roundness & Hydrodynamic Cylindricity)</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. ENCRYPTION -->
+  <section id="encryption" class="encryption-section">
+    <div class="section-inner">
+      <div class="section-label reveal">Security</div>
+      <h2 class="section-title reveal">Secure hydration, <span style="color:var(--accent)">simplified.</span></h2>
+      <p class="section-sub reveal" style="text-align:center;margin:0 auto;">HydroCrypt™. Flip the cap. Instantly secure — until someone flips it back. Genius.</p>
+
+      <div class="encrypt-box reveal">
+        <input type="text" class="encrypt-input" id="encrypt-input" placeholder="Type a message..." maxlength="20" value="FLOWGPT" />
+        <div class="encrypt-btns">
+          <button onclick="encodeMessage()">Encode</button>
+          <button onclick="flipEncrypt()">Flip</button>
+          <button onclick="decodeMessage()">Decode</button>
+        </div>
+        <div id="encrypted-output">FLOWGPT</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6. GRIP -->
+  <section id="grip" class="grip-section">
+    <div class="section-inner" style="text-align:center;">
+      <div class="section-label reveal">Engineering</div>
+      <h2 class="section-title reveal">Precision Grip, Zero Drama.</h2>
+      <p class="section-sub reveal" style="text-align:center;margin:0 auto;">Micro-textured silicone so grippy your drink files a restraining order against gravity. Spills? Consider them politely discouraged.</p>
+      <div class="grip-stat reveal" style="margin-top:2rem;">0.87</div>
+      <div class="grip-label reveal">GripScore (estimated)</div>
+    </div>
+  </section>
+
+  <!-- 7. SUSTAINABILITY -->
+  <section id="sustainability">
+    <div class="section-inner">
+      <div class="section-label reveal" style="text-align:center;">Sustainability</div>
+      <h2 class="section-title reveal" style="text-align:center;">100% plant-based.<br/><span style="color:var(--green)">Vegan-friendly.</span></h2>
+      <p class="section-sub reveal" style="text-align:center;margin:0 auto;">Pure H2O sourced sustainably. Completely vegan — no cows were harmed, but it might be full of "bull"sh*t.</p>
+
+      <div class="sustain-grid reveal">
+        <div class="sustain-card">
+          <div class="big">0</div>
+          <h4>Power draw while in use</h4>
+          <p>No compute. No tokens. So you can say "please" and "thank you" as much as you want, guilt free.</p>
+        </div>
+        <div class="sustain-card">
+          <div class="big">∞</div>
+          <h4>Refill cycles</h4>
+          <p>Unlike AI models, FlowGPT runs forever on zero energy. Just add water. Revolutionary, we know.</p>
+        </div>
+        <div class="sustain-card">
+          <div class="big">100%</div>
+          <h4>Plant-based molecules</h4>
+          <p>H2O. Two hydrogen atoms, one oxygen atom. Nature's original open-source model.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. REVIEWS -->
+  <section id="reviews" style="background:var(--surface);">
+    <div class="section-inner">
+      <div class="section-label reveal" style="text-align:center;">Social Proof</div>
+      <h2 class="section-title reveal" style="text-align:center;">People all around the world <span style="color:var(--accent)">love FlowGPT.</span></h2>
+      <p class="section-sub reveal" style="text-align:center;margin:0 auto;">Do not take our word for it. See what people say after living with FlowGPT.</p>
+
+      <div class="reviews-grid reveal">
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <div class="review-text">"This is the best water bottle I have ever used. I cannot go to the gym without it."</div>
+          <div class="review-author">HydroBro420</div>
+          <div class="review-role">AI Hydration Influencer</div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★☆</div>
+          <div class="review-text">"My water? If you want it, I will let you have it. Look for it! I left everything I gathered together in one place!"</div>
+          <div class="review-author">Gol D. Aquarius</div>
+          <div class="review-role">Old-school Water Pirate</div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <div class="review-text">"We are so cooked. Hollywood is not ready for a water bottle this cinematic."</div>
+          <div class="review-author">Jamie R.</div>
+          <div class="review-role">Crypto Degen, Alkaline Water Believer</div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <div class="review-text">"I tried the wearable mode. I achieved... hydration."</div>
+          <div class="review-author">Jules M.</div>
+          <div class="review-role">Minimalist</div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <div class="review-text">"My desk has not been this hydrated since I stopped trusting tap water."</div>
+          <div class="review-author">Priya K.</div>
+          <div class="review-role">Flat Water Believer</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9. TECH SPECS -->
+  <section id="specs" class="specs-section">
+    <div class="section-inner">
+      <div class="section-label reveal" style="text-align:center;">Technical Specifications</div>
+      <h2 class="section-title reveal" style="text-align:center;">Runs on the edge.<br/>Refuses the cloud.</h2>
+
+      <div class="specs-scroll reveal">
+        <div class="spec-card"><div class="icon">📱</div><h4>On-device</h4><p>Zero cloud dependency. Your hydration data stays local.</p></div>
+        <div class="spec-card"><div class="icon">⚡</div><h4>24/7 UPTIME</h4><p>No power required. No charging. No tokens.</p></div>
+        <div class="spec-card"><div class="icon">🎮</div><h4>Runs on RTX 3090</h4><p>No more OOM on any consumer GPUs.</p></div>
+        <div class="spec-card"><div class="icon">✨</div><h4>Perfect By Design</h4><p>Every curve calculated. Every sip optimized.</p></div>
+        <div class="spec-card"><div class="icon">🪨</div><h4>Drop-Tested</h4><p>Date: 02/30/2026. Damage: The Floor ;)</p></div>
+        <div class="spec-card"><div class="icon">🏛️</div><h4>Legacy Support</h4><p>Supporting backward compatibility since the 5th millennium BCE.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. PRODUCT TIERS -->
+  <section id="product">
+    <div class="section-inner">
+      <div class="section-label reveal" style="text-align:center;">Choose Yours</div>
+      <h2 class="section-title reveal" style="text-align:center;">Choose your <span style="color:var(--accent)">FlowGPT.</span></h2>
+
+      <div class="tiers-grid reveal">
+        <div class="tier-card">
+          <h3>FlowGPT</h3>
+          <div class="tagline">The original. Refined until it feels inevitable.</div>
+          <div class="tier-specs">
+            <div><span>Stack:</span> 1</div>
+            <div><span>Lift:</span> 2.5 inches</div>
+            <div><span>Material:</span> Tritan Plastic</div>
+            <div><span>Connectivity:</span> None</div>
+            <div><span>Pairing:</span> Not Required</div>
+            <div><span>Updates:</span> Never</div>
+            <div><span>Best for:</span> Daily hydration</div>
+          </div>
+        </div>
+        <div class="tier-card featured">
+          <h3>FlowGPT Pro</h3>
+          <div class="tagline">Double the capacity. Double the commitment.</div>
+          <div class="tier-specs">
+            <div><span>Stack:</span> 2</div>
+            <div><span>Lift:</span> 5 inches</div>
+            <div><span>Material:</span> Double-wall Steel</div>
+            <div><span>Connectivity:</span> None</div>
+            <div><span>Pairing:</span> Not Required</div>
+            <div><span>Updates:</span> Never</div>
+            <div><span>Best for:</span> Taller cups, extra stability</div>
+          </div>
+        </div>
+        <div class="tier-card">
+          <h3>FlowGPT Pro Max</h3>
+          <div class="tagline">Maximum stack for maximum unnecessary satisfaction.</div>
+          <div class="tier-specs">
+            <div><span>Stack:</span> 3</div>
+            <div><span>Lift:</span> 7.5 inches</div>
+            <div><span>Material:</span> Titanium Alloy</div>
+            <div><span>Connectivity:</span> None</div>
+            <div><span>Pairing:</span> Not Required</div>
+            <div><span>Updates:</span> Never</div>
+            <div><span>Deployable on:</span> RTX 3090, on device</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Compare Table -->
+      <div class="reveal" style="overflow-x:auto;margin-top:3rem;">
+        <table class="compare-table">
+          <thead>
+            <tr><th></th><th>FlowGPT</th><th>FlowGPT Pro</th><th>FlowGPT Pro Max</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Stack</td><td>1</td><td>2</td><td>3</td></tr>
+            <tr><td>Lift</td><td>2.5"</td><td>5"</td><td>7.5"</td></tr>
+            <tr><td>Material</td><td>Plastic</td><td>Steel</td><td>Titanium</td></tr>
+            <tr><td>Connectivity</td><td>None</td><td>None</td><td>None</td></tr>
+            <tr><td>Pairing</td><td>Not Required</td><td>Not Required</td><td>Not Required</td></tr>
+            <tr><td>Updates</td><td>Never</td><td>Never</td><td>Never</td></tr>
+            <tr><td>Best For</td><td>Daily hydration</td><td>Taller cups</td><td>Maximum presence</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. OPEN WEIGHT -->
+  <section id="openweight" class="openweight-section">
+    <div class="section-inner">
+      <div class="section-label reveal">Open Weight Model</div>
+      <h2 class="section-title reveal">Our SOTA <span style="color:var(--accent)">Open Weight</span> model.</h2>
+      <p class="section-sub reveal" style="text-align:center;margin:0 auto;">Hydra-7B. An open-weight hydration model for rendering, simulation, and gloriously unnecessary research.</p>
+
+      <div class="paper-box reveal">
+        <h4>Abstract</h4>
+        <p>We present Hydra-7B, an open-weight 3D model of a water bottle for rendering, simulation, and gloriously unnecessary research. Hydra-7B faithfully reproduces key hydration behaviors — desk protection, perfect cylindrical symmetry, and passive thermal moderation under everyday beverage conditions. Released in clean OBJ format with baseline results on our own DeskBench (a standardized evaluation suite conducted on a single desk and very possibly rigged by us). Limitations include heavy dependency on gravity, liquids, and human deployment.</p>
+
+        <h4>Acknowledgements</h4>
+        <p>This website was single-shot espresso'd into existence by the creative team at NetClicks by Ari.</p>
+
+        <h4>Peer Review</h4>
+        <p>"Hydra-7B A0B is the best model out there. Trust me bro." — Anonymous r/hydrohomies user</p>
+
+        <h4>BibTeX</h4>
+        <div class="bibtex">@misc{flowgpt2026,
+  title        = {Hydra-7B: Open-Weight Hydration Model},
+  author       = {NetClicks by Ari},
+  year         = {2026},
+  howpublished = {OBJ release},
+  note         = {A high-fidelity 3D model of a water bottle. Code: coming soon.}
+}</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12. FOOTER -->
+  <footer id="contact" class="flowgpt-footer">
+    <div class="reveal-text">
+      We caught your attention with a <span>non-existent product.</span><br/>
+      If we can sell a water bottle, imagine what we can do for your brand.
+    </div>
+    <div class="footer-links">
+      <a href="/">NetClicks by Ari</a>
+      <a href="mailto:netclicksbyari@gmail.com">Email</a>
+      <a href="sms:+19784965735">Text</a>
+    </div>
+    <p class="disclaimer">This entire site is a fictional creative project by NetClicks by Ari. FlowGPT does not exist. No products are for sale. All claims are satirical and for entertainment purposes only.</p>
+    <p style="margin-top:1.5rem;font-size:0.65rem;color:var(--muted);">© 2026 NetClicks by Ari. Built with absurdity.</p>
+  </footer>
+
+  <script>
+    // GSAP ScrollTrigger
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Scroll reveal
+    const reveals = document.querySelectorAll('.reveal');
+    reveals.forEach((el, i) => {
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top 85%',
+        onEnter: () => el.classList.add('visible'),
+      });
+    });
+
+    // Temperature slider
+    const slider = document.getElementById('temp-slider');
+    const tempValue = document.getElementById('temp-value');
+    if (slider) {
+      slider.addEventListener('input', () => {
+        const v = parseFloat(slider.value).toFixed(1);
+        let label = 'Adaptive Thermal Regulation';
+        if (v <= 2) label = 'Deterministic Hydration Mode';
+        else if (v <= 5) label = 'Balanced Thermal Regulation';
+        else label = 'Creative Hydration Mode';
+        tempValue.textContent = `T = ${v} | ${label}`;
+      });
+    }
+
+    // Encryption
+    const originalText = 'FLOWGPT';
+    function encodeMessage() {
+      const input = document.getElementById('encrypt-input').value;
+      const encoded = btoa(input).split('').reverse().join('');
+      document.getElementById('encrypted-output').textContent = encoded;
+    }
+    function decodeMessage() {
+      const input = document.getElementById('encrypted-output').textContent;
+      try {
+        const decoded = atob(input.split('').reverse().join(''));
+        document.getElementById('encrypted-output').textContent = decoded;
+      } catch {
+        document.getElementById('encrypted-output').textContent = 'Could not decode. Try encoding first.';
+      }
+    }
+    function flipEncrypt() {
+      const el = document.getElementById('encrypted-output');
+      el.style.transform = el.style.transform === 'rotateY(180deg)' ? 'rotateY(0deg)' : 'rotateY(180deg)';
+      el.style.transition = 'transform 0.6s';
+    }
+
+    // Scroll progress dots
+    const sections = ['hero', 'ai', 'wearable', 'features', 'encryption', 'grip', 'sustainability', 'reviews', 'specs', 'product', 'openweight', 'contact'];
+    const progressContainer = document.getElementById('scroll-progress');
+    sections.forEach((id, i) => {
+      const dot = document.createElement('div');
+      dot.className = 'scroll-dot';
+      dot.dataset.section = id;
+      progressContainer.appendChild(dot);
+    });
+
+    window.addEventListener('scroll', () => {
+      const scrollY = window.scrollY;
+      const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = scrollY / docHeight;
+
+      const dots = document.querySelectorAll('.scroll-dot');
+      const activeIndex = Math.floor(progress * dots.length);
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === activeIndex);
+      });
+    });
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', (e) => {
+        e.preventDefault();
+        const target = document.querySelector(a.getAttribute('href'));
+        if (target) target.scrollIntoView({ behavior: 'smooth' });
+      });
+    });
+  </script>
+</body>
+</html>
