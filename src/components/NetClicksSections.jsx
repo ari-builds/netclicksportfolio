@@ -141,18 +141,26 @@ export function FounderNote() {
                 <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
               </svg>
               <p className="text-lg md:text-xl text-foreground/90 leading-relaxed mb-6">
-                I started NetClicks because I saw too many brilliant B2B companies pouring money into digital marketing and getting mediocre results. The problem was never the budget — it was the architecture. Bad funnels, forgettable brands, disconnected campaigns.
+                I am Ariana and I went into this industry to help other ambitious entrepreneurs like myself.
               </p>
               <p className="text-lg md:text-xl text-foreground/90 leading-relaxed mb-6">
-                We built NetClicks to be the partner I wish existed — one that combines world-class design, relentless performance optimization, and the latest in AI to create growth systems that actually compound.
+                In today's age, sometimes it feels like everyone is promising guaranteed success and ROI. They try to differentiate themselves from their competitors but honestly, for 99% of them, there is no difference. Most of them are incompetent, and now with AI, everyone thinks they are a software engineer, but they don't even know how to use it correctly.
+              </p>
+              <p className="text-lg md:text-xl text-foreground/90 leading-relaxed mb-6">
+                A lot of people looking for the help they offer have been burned, so they start trying to do things themselves. I get that, but that is because most victims looked at the most convenient or maybe even cheapest option in front of them without looking at the stats. They focused on the short-term and ended up losing right at that moment, and in the long-term.
+              </p>
+              <p className="text-lg md:text-xl text-foreground/90 leading-relaxed mb-6">
+                When we first started out, in our first two weeks, we onboarded eight clients. We are not trying to sell you on just one project and then leave you to figure out the rest. We value building strong relationships with our clients so that we can grow together.
               </p>
               <p className="text-lg md:text-xl text-foreground/90 leading-relaxed mb-8">
-                If you're serious about scaling, let's talk. No pitch decks. No fluff. Just a real conversation about what's possible.
+                If you are ambitious and want to grow your business, we don't guarantee all our clients will achieve the same level of success, but how successful you are depends on how much you work for it.
               </p>
-              <div className="flex items-center gap-4">
+              <div className="flex items-center gap-4 mb-8">
               <div className="h-px flex-1 bg-gradient-to-r from-foreground/20 to-transparent" />
               <span className="text-foreground font-semibold italic text-lg">— Ariana</span>
               </div>
+              <p className="text-2xl md:text-3xl font-bold text-foreground mb-3">Work with us. Grow with us.</p>
+              <p className="text-sm text-muted-foreground">Your future depends on what you do right now.</p>
             </div>
           </motion.div>
         </div>
