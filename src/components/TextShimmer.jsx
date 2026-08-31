@@ -1,7 +1,13 @@
-import { motion } from "framer-motion"
+import { motion, useReducedMotion } from "motion/react"
 import { cn } from "@/lib/utils"
 
-export function TextShimmer({ children, className, duration = 4 }) {
+export function TextShimmer({ children, className, duration = 5 }) {
+  const reduce = useReducedMotion()
+
+  if (reduce) {
+    return <span className={className}>{children}</span>
+  }
+
   return (
     <motion.span
       className={cn("inline-block bg-clip-text text-transparent", className)}

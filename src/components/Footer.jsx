@@ -1,5 +1,3 @@
-import { motion } from "motion/react"
-
 export function Footer() {
   const scrollTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" })
@@ -40,7 +38,10 @@ export function Footer() {
           <div className="w-full max-w-md h-px bg-gradient-to-r from-transparent via-border to-transparent" />
 
           <p className="text-xs text-muted-foreground/60">
-            &copy; {new Date().getFullYear()} NetClicks. All rights reserved. Built for brands that refuse to be average.
+            &copy; {new Date().getFullYear()} NetClicks. All rights reserved.
+          </p>
+          <p className="text-xs text-muted-foreground/40">
+            Music: "Supernatural" by Sascha Ende, CC BY 4.0
           </p>
         </div>
       </div>

@@ -1,28 +1,33 @@
-import { useState } from "react"
-import { motion } from "motion/react"
+import { useRef, useState } from "react"
+import { motion, useScroll, useTransform, useReducedMotion } from "motion/react"
 import { createPortal } from "react-dom"
-import { Target, BarChart3, Zap, Users, X } from "lucide-react"
+import { Target, BarChart3, Zap, Users, X, ChevronDown } from "lucide-react"
+import { SectionTitle } from "./motion/SectionTitle"
+import { Reveal } from "./motion/Reveal"
+import { Magnetic } from "./motion/Magnetic"
+import { Spotlight } from "./Spotlight"
+import { WordReveal } from "./motion/WordReveal"
 
 const whyUsFeatures = [
   {
     icon: Target,
-    title: "Conversion-First Thinking",
-    description: "Every design decision, every word, every pixel is reverse-engineered from a single goal: getting your ideal customer to act.",
+    title: "Built to convert",
+    description: "Every decision we make is aimed at one thing: getting your customer to take action. Design, copy, and flow all serve that goal.",
   },
   {
     icon: BarChart3,
-    title: "Data-Backed Creativity",
-    description: "We don't guess. We test, measure, and iterate. Our creative process is built on analytics, not assumptions.",
+    title: "Based on what works",
+    description: "We track what performs with real analytics and iterate from the numbers. Creative decisions are built on measured results, not guesses.",
   },
   {
     icon: Zap,
-    title: "Speed to Market",
-    description: "In B2B, velocity wins. We move fast without breaking things — shipping production-ready work in days, not months.",
+    title: "Fast without shortcuts",
+    description: "We ship production-ready work quickly, then keep improving it. Speed matters, but we never break what you rely on.",
   },
   {
     icon: Users,
-    title: "Full-Stack Partnership",
-    description: "Design, brand, ads, automation — all under one roof. No more coordinating five agencies. One team, one vision, total accountability.",
+    title: "One team for everything",
+    description: "Websites, content, ads, automation. One team handles it all, so you never juggle five agencies or point fingers between them.",
   },
 ]
 
@@ -30,40 +35,24 @@ export function WhyUs() {
   return (
     <section id="why" className="relative py-32 px-6">
       <div className="max-w-6xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.7 }}
-          className="text-center mb-16"
-        >
-          <span className="text-sm font-semibold uppercase tracking-widest text-[#F472B6] mb-4 block">
-            The Difference
-          </span>
-          <h2 className="text-4xl md:text-5xl font-extrabold text-foreground tracking-tight">
-            Why{" "}
-            <span className="bg-gradient-to-r from-[#F472B6] to-[#8B5CF6] bg-clip-text text-transparent">
-              NetClicks
-            </span>
-          </h2>
-        </motion.div>
+        <SectionTitle
+          center
+          label="The Difference"
+          title="Why NetClicks"
+          className="mb-16"
+        />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {whyUsFeatures.map((f, i) => (
-            <motion.div
-              key={f.title}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-30px" }}
-              transition={{ duration: 0.5, delay: i * 0.1 }}
-              className="relative rounded-2xl p-8 border border-border bg-card hover:bg-card/80 transition-colors group"
-            >
-              <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600/10 to-[#8B5CF6]/10 border border-blue-600/20 flex items-center justify-center text-blue-600 mb-5">
-                <f.icon className="w-6 h-6" />
+            <Reveal key={f.title} delay={i * 0.1}>
+              <div className="relative rounded-2xl p-8 border border-border bg-card hover:bg-card/80 transition-colors group">
+                <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-blue-600/10 to-[#8B5CF6]/10 border border-blue-600/20 flex items-center justify-center text-blue-600 mb-5">
+                  <f.icon className="w-6 h-6" />
+                </div>
+                <h3 className="text-xl font-bold text-foreground mb-3">{f.title}</h3>
+                <p className="text-muted-foreground leading-relaxed">{f.description}</p>
               </div>
-              <h3 className="text-xl font-bold text-foreground mb-3">{f.title}</h3>
-              <p className="text-muted-foreground leading-relaxed">{f.description}</p>
-            </motion.div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -72,8 +61,15 @@ export function WhyUs() {
 }
 
 export function FounderNote() {
+  const reduce = useReducedMotion()
+  const ref = useRef(null)
+  const { scrollYProgress } = useScroll({
+    target: ref,
+    offset: ["start end", "end start"],
+  })
+  const avatarY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [60, -60])
   return (
-    <section id="founder" className="relative py-32 px-6">
+    <section id="founder" ref={ref} className="relative py-32 px-6">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -82,17 +78,14 @@ export function FounderNote() {
           transition={{ duration: 0.7 }}
           className="text-center mb-16"
         >
-          <span className="text-sm font-semibold uppercase tracking-widest text-[#8B5CF6] mb-4 block">
+          <span className="text-sm font-semibold uppercase tracking-widest text-muted-foreground mb-4 block">
             A Note From Our Founder
           </span>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-16 items-center">
           <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.1 }}
+            style={{ y: avatarY }}
             className="lg:col-span-2"
           >
             <div
@@ -124,7 +117,7 @@ export function FounderNote() {
               </svg>
               <div className="absolute bottom-6 left-6">
                 <div className="text-xl font-bold text-foreground">Ariana</div>
-                <div className="text-sm text-muted-foreground font-medium">Founder & CEO</div>
+                <div className="text-sm text-muted-foreground font-medium">Founder</div>
               </div>
             </div>
           </motion.div>
@@ -140,21 +133,36 @@ export function FounderNote() {
               <svg className="w-10 h-10 text-blue-600/30 mb-6" viewBox="0 0 24 24" fill="currentColor">
                 <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
               </svg>
-              <p className="text-lg md:text-xl text-foreground/90 leading-relaxed mb-6">
-                I am Ariana and I went into this industry to help other ambitious entrepreneurs like myself.
-              </p>
-              <p className="text-lg md:text-xl text-foreground/90 leading-relaxed mb-6">
-                In today's age, sometimes it feels like everyone is promising guaranteed success and ROI. They try to differentiate themselves from their competitors but honestly, for 99% of them, there is no difference. Most of them are incompetent, and now with AI, everyone thinks they are a software engineer, but they don't even know how to use it correctly.
-              </p>
-              <p className="text-lg md:text-xl text-foreground/90 leading-relaxed mb-6">
-                A lot of people looking for the help they offer have been burned, so they start trying to do things themselves. I get that, but that is because most victims looked at the most convenient or maybe even cheapest option in front of them without looking at the stats. They focused on the short-term and ended up losing right at that moment, and in the long-term.
-              </p>
-              <p className="text-lg md:text-xl text-foreground/90 leading-relaxed mb-6">
-                When we first started out, in our first two weeks, we onboarded eight clients. We are not trying to sell you on just one project and then leave you to figure out the rest. We value building strong relationships with our clients so that we can grow together.
-              </p>
-              <p className="text-lg md:text-xl text-foreground/90 leading-relaxed mb-8">
-                If you are ambitious and want to grow your business, we don't guarantee all our clients will achieve the same level of success, but how successful you are depends on how much you work for it.
-              </p>
+              <WordReveal
+                as="p"
+                text="I am Ariana and I went into this industry to help other ambitious entrepreneurs like myself."
+                className="text-lg md:text-xl text-foreground/90 leading-relaxed mb-6"
+                baseDelay={0.1}
+              />
+              <WordReveal
+                as="p"
+                text="In today's age, sometimes it feels like everyone is promising guaranteed success and ROI. They try to differentiate themselves from their competitors but honestly, for 99% of them, there is no difference. Most of them are incompetent, and now with AI, everyone thinks they are a software engineer, but they don't even know how to use it correctly."
+                className="text-lg md:text-xl text-foreground/90 leading-relaxed mb-6"
+                baseDelay={0.3}
+              />
+              <WordReveal
+                as="p"
+                text="A lot of people looking for the help they offer have been burned, so they start trying to do things themselves. I get that, but that is because most victims looked at the most convenient or maybe even cheapest option in front of them without looking at the stats. They focused on the short-term and ended up losing right at that moment, and in the long-term."
+                className="text-lg md:text-xl text-foreground/90 leading-relaxed mb-6"
+                baseDelay={0.5}
+              />
+              <WordReveal
+                as="p"
+                text="We are not trying to sell you on just one project and then leave you to figure out the rest. We value building strong relationships with our clients so that we can grow together."
+                className="text-lg md:text-xl text-foreground/90 leading-relaxed mb-6"
+                baseDelay={0.7}
+              />
+              <WordReveal
+                as="p"
+                text="If you are ambitious and want to grow your business, we don't guarantee all our clients will achieve the same level of success, but how successful you are depends on how much you work for it."
+                className="text-lg md:text-xl text-foreground/90 leading-relaxed mb-8"
+                baseDelay={0.9}
+              />
               <div className="flex items-center gap-4 mb-8">
               <div className="h-px flex-1 bg-gradient-to-r from-foreground/20 to-transparent" />
               <span className="text-foreground font-semibold italic text-lg">— Ariana</span>
@@ -163,6 +171,85 @@ export function FounderNote() {
               <p className="text-sm text-muted-foreground">Your future depends on what you do right now.</p>
             </div>
           </motion.div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+const faqData = [
+  {
+    q: "What if I'm not satisfied with the result?",
+    a: "Before building, we agree on the scope, timeline, and what both parties need to do. If everything is done correctly on your end and the results aren't achieved, you get your money back plus what was negotiated.",
+  },
+  {
+    q: "Do you handle SEO as well?",
+    a: "Yes. Every site we build comes with on-page SEO, and we offer ongoing SEO strategy as a standalone service.",
+  },
+  {
+    q: "Do you work with my industry?",
+    a: "Yes — we work with all industries. Whether you're a local service business, an e-commerce brand, or a B2B company, our systems adapt to your market.",
+  },
+  {
+    q: "How much does it cost?",
+    a: "Every project is scoped before we start, so you always know the full price upfront. You approve the scope and the fixed cost first — no surprise invoices after we begin.",
+  },
+  {
+    q: "How long does it take?",
+    a: "A standard website goes live in about two to four weeks. Larger systems are scoped with a committed timeline before we start, and we hold ourselves to that deadline.",
+  },
+  {
+    q: "Who owns the website?",
+    a: "You do. The domain, the content, the build, and all the accounts are yours. There's no lock-in — if you ever want to leave, you keep everything and can take it anywhere.",
+  },
+  {
+    q: "Do I have to commit to a monthly retainer?",
+    a: "No. Ongoing services like lead generation, content, and automation run month to month, and you can pause or cancel anytime. There's no locked-in contract.",
+  },
+]
+
+function FAQItem({ item }) {
+  const [open, setOpen] = useState(false)
+  return (
+    <div className="border border-border rounded-xl overflow-hidden">
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between p-5 text-left bg-card hover:bg-card/80 transition-colors"
+      >
+        <span className="font-semibold text-foreground">{item.q}</span>
+        <ChevronDown className={`w-5 h-5 text-muted-foreground transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
+      </button>
+      {open && (
+        <motion.div
+          initial={{ height: 0, opacity: 0 }}
+          animate={{ height: "auto", opacity: 1 }}
+          transition={{ duration: 0.3 }}
+          className="px-5 pb-5"
+        >
+          <p className="text-muted-foreground leading-relaxed">{item.a}</p>
+        </motion.div>
+      )}
+    </div>
+  )
+}
+
+export function FAQ() {
+  return (
+    <section id="faq" className="relative py-24 px-6">
+      <div className="max-w-3xl mx-auto">
+        <SectionTitle
+          center
+          label="FAQ"
+          title="Common Questions"
+          className="mb-12"
+          sub="Answers to the questions we hear most before we start."
+        />
+        <div className="flex flex-col gap-3">
+          {faqData.map((item, i) => (
+            <Reveal key={i} delay={i * 0.08}>
+              <FAQItem item={item} />
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
@@ -238,7 +325,7 @@ function BookingModal({ isOpen, onClose }) {
               >
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-600/10 text-blue-600">
+                    <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-semibold bg-blue-600/10 text-muted-foreground">
                       <span className="w-3 h-3 inline-block" />{opt.duration}
                     </div>
                     <span className="text-base font-semibold text-foreground">{opt.label}</span>
@@ -258,12 +345,44 @@ function BookingModal({ isOpen, onClose }) {
   )
 }
 
+export function EmailCapture() {
+  return (
+    <section className="relative py-20 px-6">
+      <div className="max-w-2xl mx-auto text-center">
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7 }}
+        >
+          <h3 className="text-2xl md:text-3xl font-bold text-foreground tracking-tight mb-4">
+            Get a Free Website Audit
+          </h3>
+          <p className="text-muted-foreground mb-8 leading-relaxed">
+            We will review your current site and show you exactly where you are losing leads — for free.
+          </p>
+          <a
+            href="mailto:netclicksbyari@gmail.com?subject=Free%20Website%20Audit&body=Hi%20Ariana%2C%20I%27d%20like%20a%20free%20website%20audit.%20My%20website%20is%3A%20"
+            className="inline-flex items-center gap-3 px-8 py-4 rounded-full border border-border bg-card hover:bg-card/80 text-foreground font-semibold transition-all hover:scale-105"
+          >
+            Request Your Free Audit
+            <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+              <path d="M5 12h14M12 5l7 7-7 7" />
+            </svg>
+          </a>
+        </motion.div>
+      </div>
+    </section>
+  )
+}
+
 export function CTA() {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
     <section id="cta" className="relative py-32 px-6 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">
+        <Spotlight />
         <div
           className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[80vw] h-[50vh] rounded-full opacity-20"
           style={{
@@ -280,23 +399,25 @@ export function CTA() {
           transition={{ duration: 0.8 }}
         >
           <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-foreground tracking-tight mb-6">
-            Ready to Scale?
+            Want to grow?
           </h2>
           <p className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto mb-10 leading-relaxed">
-            Book a free discovery call and let's map out a growth plan tailored to your brand. No obligations, no pitch decks — just strategy.
+            Book a free discovery call. We listen first, then tell you honestly what we can build and what it will take. No pressure, no fluff.
           </p>
-          <button
-            onClick={() => setIsOpen(true)}
-            className="inline-flex items-center gap-3 px-10 py-5 rounded-full bg-gradient-to-r from-[#00F2FF] via-[#8B5CF6] to-[#F472B6] text-white font-bold text-lg hover:scale-105 transition-transform"
-          >
-            Book a Discovery Call
-            <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </button>
+          <Magnetic>
+            <button
+              onClick={() => setIsOpen(true)}
+              className="inline-flex items-center gap-3 px-10 py-5 rounded-full bg-gradient-to-r from-[#00F2FF] via-[#8B5CF6] to-[#F472B6] text-white font-bold text-lg hover:scale-105 transition-transform"
+            >
+              Book a Discovery Call
+              <svg className="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={2}>
+                <path d="M5 12h14M12 5l7 7-7 7" />
+              </svg>
+            </button>
+          </Magnetic>
           <BookingModal isOpen={isOpen} onClose={() => setIsOpen(false)} />
           <p className="mt-6 text-sm text-muted-foreground">
-            Free 15-to-30-minute call &middot; No commitment &middot; Results-focused
+            Free 15 to 30 minute call &middot; No commitment
           </p>
         </motion.div>
       </div>

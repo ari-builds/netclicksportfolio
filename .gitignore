@@ -5,3 +5,11 @@ dist/
 .env
 .env.local
 .env.*.local
+
+# NetClicks local scratch / tooling
+.21st/
+preview.log
+
+# Local video files (not pushed to keep the repo lean)
+public/videos/opening.mp4
+public/videos/clips/

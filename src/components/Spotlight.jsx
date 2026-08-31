@@ -1,4 +1,4 @@
-import { motion } from "framer-motion"
+import { motion } from "motion/react"
 
 export function Spotlight({ className = "" }) {
   return (
@@ -12,7 +12,7 @@ export function Spotlight({ className = "" }) {
         <motion.div
           animate={{ x: [0, 100, 0] }}
           transition={{ duration: 7, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
-          className="absolute top-0 left-0 h-screen z-40 pointer-events-none"
+          className="absolute top-0 left-0 h-full z-0 pointer-events-none"
         >
           <div
             style={{ transform: "translateY(-350px) rotate(-45deg)", background: "radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(210,100%,85%,.08) 0, hsla(210,100%,55%,.02) 50%, hsla(210,100%,45%,0) 80%)", width: "560px", height: "1380px" }}
@@ -30,7 +30,7 @@ export function Spotlight({ className = "" }) {
         <motion.div
           animate={{ x: [0, -100, 0] }}
           transition={{ duration: 7, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
-          className="absolute top-0 right-0 h-screen z-40 pointer-events-none"
+          className="absolute top-0 right-0 h-full z-0 pointer-events-none"
         >
           <div
             style={{ transform: "translateY(-350px) rotate(45deg)", background: "radial-gradient(68.54% 68.72% at 55.02% 31.46%, hsla(210,100%,85%,.08) 0, hsla(210,100%,55%,.02) 50%, hsla(210,100%,45%,0) 80%)", width: "560px", height: "1380px" }}
