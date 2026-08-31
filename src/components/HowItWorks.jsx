@@ -2,6 +2,7 @@ import { motion, useReducedMotion } from "motion/react"
 import { serviceCategories } from "../svc/ServiceConfig"
 import { SectionTitle } from "./motion/SectionTitle"
 import { Reveal } from "./motion/Reveal"
+import { CameraPass } from "./motion/CameraPass"
 
 export default function HowItWorks() {
   const reduce = useReducedMotion()
@@ -14,7 +15,7 @@ export default function HowItWorks() {
           sub="Each area of our work runs the same way. Clear steps, no mystery."
         />
 
-        <div className="mt-14 space-y-8">
+        <CameraPass className="mt-14 space-y-8">
           {serviceCategories.map((cat, i) => (
             <Reveal key={cat.slug} delay={0.05}>
               <div className="grid lg:grid-cols-[260px_1fr] gap-6 lg:gap-10 items-start rounded-2xl border border-border bg-card p-6 md:p-8">
@@ -50,7 +51,7 @@ export default function HowItWorks() {
               </div>
             </Reveal>
           ))}
-        </div>
+        </CameraPass>
       </div>
     </section>
   )

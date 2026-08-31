@@ -1,11 +1,45 @@
 import { Link } from "react-router-dom"
-import { motion, useReducedMotion } from "motion/react"
+import { useRef } from "react"
+import { motion, useMotionValue, useSpring, useReducedMotion } from "motion/react"
 import { ArrowRight } from "lucide-react"
 import { serviceCategories } from "../svc/ServiceConfig"
 import { SectionTitle } from "./motion/SectionTitle"
 import { Reveal } from "./motion/Reveal"
 import { BladeWipe } from "./motion/BladeWipe"
 import { SelfDrawIcon } from "./motion/SelfDrawIcon"
+
+function TiltCard({ children }) {
+  const reduce = useReducedMotion()
+  const ref = useRef(null)
+  const rx = useSpring(useMotionValue(0), { stiffness: 200, damping: 20 })
+  const ry = useSpring(useMotionValue(0), { stiffness: 200, damping: 20 })
+
+  const onMove = (e) => {
+    if (reduce) return
+    const el = ref.current
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    const px = (e.clientX - rect.left) / rect.width - 0.5
+    const py = (e.clientY - rect.top) / rect.height - 0.5
+    rx.set(-py * 8)
+    ry.set(px * 10)
+  }
+  const onLeave = () => {
+    rx.set(0)
+    ry.set(0)
+  }
+
+  return (
+    <motion.div
+      ref={ref}
+      onMouseMove={onMove}
+      onMouseLeave={onLeave}
+      style={{ rotateX: rx, rotateY: ry, transformPerspective: 1000, transformStyle: "preserve-3d" }}
+    >
+      {children}
+    </motion.div>
+  )
+}
 
 export default function CategoryOverview() {
   const reduce = useReducedMotion()
@@ -26,6 +60,7 @@ export default function CategoryOverview() {
               className={reduce ? "" : "sm:even:mt-10"}
             >
               <BladeWipe delay={i * 0.12}>
+                <TiltCard>
                 <motion.div whileHover={reduce ? undefined : { y: -8 }} whileTap={{ scale: 0.98 }}>
                   <Link
                     to={`/${cat.slug}`}
@@ -48,6 +83,7 @@ export default function CategoryOverview() {
                     </div>
                   </Link>
                 </motion.div>
+                </TiltCard>
               </BladeWipe>
             </Reveal>
           ))}
