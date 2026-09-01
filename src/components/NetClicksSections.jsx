@@ -67,110 +67,91 @@ export function FounderNote() {
     target: ref,
     offset: ["start end", "end start"],
   })
-  const avatarY = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [60, -60])
+  const line1Y = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [80, -40])
+  const line2Y = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [120, -80])
+  const line1Opacity = useTransform(scrollYProgress, [0, 0.2], reduce ? [1, 1] : [0, 1])
+  const line2Opacity = useTransform(scrollYProgress, [0.1, 0.3], reduce ? [1, 1] : [0, 1])
+
   return (
-    <section id="founder" ref={ref} className="relative py-32 px-6">
+    <section id="founder" ref={ref} className="relative py-32 md:py-36 px-6 overflow-hidden">
       <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="text-center mb-16"
+          className="mb-16 md:mb-20"
         >
-          <span className="text-sm font-semibold uppercase tracking-widest text-muted-foreground mb-4 block">
-            A Note From Our Founder
+          <span className="text-sm font-semibold uppercase tracking-widest text-muted-foreground block">
+            A Note From The Founder
           </span>
         </motion.div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-5 gap-10 lg:gap-16 items-center">
+        <div className="relative">
           <motion.div
-            style={{ y: avatarY }}
-            className="lg:col-span-2"
+            style={{ y: line1Y, opacity: line1Opacity }}
+            className="font-syne text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] font-bold leading-[1.05] tracking-tight text-foreground"
           >
-            <div
-              className="relative rounded-2xl overflow-hidden aspect-[3/4] max-w-sm mx-auto lg:mx-0 flex flex-col items-center justify-center"
-              style={{
-                background: "linear-gradient(135deg, rgba(0,242,255,0.08) 0%, rgba(139,92,246,0.12) 50%, rgba(244,114,182,0.08) 100%)",
-                border: "1px solid rgba(0,0,0,0.08)",
-              }}
-            >
-              <div className="absolute inset-0 pointer-events-none">
-                <div
-                  className="absolute bottom-0 left-1/2 -translate-x-1/2 w-48 h-48 rounded-full opacity-30"
-                  style={{
-                    background: "radial-gradient(circle, rgba(139,92,246,0.5) 0%, transparent 70%)",
-                    filter: "blur(30px)",
-                  }}
-                />
-              </div>
-              <svg viewBox="0 0 200 260" className="w-40 h-auto relative z-10" fill="none" xmlns="http://www.w3.org/2000/svg">
-                <circle cx="100" cy="72" r="38" fill="url(#avatarGrad)" />
-                <path d="M30 260 Q30 180 100 165 Q170 180 170 260Z" fill="url(#avatarGrad)" />
-                <defs>
-                  <linearGradient id="avatarGrad" x1="0" y1="0" x2="1" y2="1">
-                    <stop offset="0%" stopColor="#00F2FF" stopOpacity="0.6" />
-                    <stop offset="50%" stopColor="#8B5CF6" stopOpacity="0.7" />
-                    <stop offset="100%" stopColor="#F472B6" stopOpacity="0.6" />
-                  </linearGradient>
-                </defs>
-              </svg>
-              <div className="absolute bottom-6 left-6">
-                <div className="text-xl font-bold text-foreground">Ariana</div>
-                <div className="text-sm text-muted-foreground font-medium">Founder</div>
-              </div>
-            </div>
+            <span className="block overflow-hidden pb-[0.1em] -mb-[0.1em]">
+              I built NetClicks by Ari
+            </span>
+          </motion.div>
+          <motion.div
+            style={{ y: line2Y, opacity: line2Opacity }}
+            className="font-syne text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] font-bold leading-[1.05] tracking-tight"
+          >
+            <span className="block overflow-hidden pb-[0.1em] -mb-[0.1em] bg-gradient-to-r from-[#00F2FF] via-[#8B5CF6] to-[#F472B6] bg-clip-text text-transparent">
+              for the ambitious ones.
+            </span>
           </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, x: 40 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.7, delay: 0.2 }}
-            className="lg:col-span-3"
-          >
-            <div className="relative rounded-2xl p-8 md:p-10 border border-border bg-card">
-              <svg className="w-10 h-10 text-blue-600/30 mb-6" viewBox="0 0 24 24" fill="currentColor">
-                <path d="M14.017 21v-7.391c0-5.704 3.731-9.57 8.983-10.609l.995 2.151c-2.432.917-3.995 3.638-3.995 5.849h4v10h-9.983zm-14.017 0v-7.391c0-5.704 3.748-9.57 9-10.609l.996 2.151c-2.433.917-3.996 3.638-3.996 5.849h3.983v10h-9.983z" />
-              </svg>
+          <div className="mt-20 md:mt-28 space-y-14 md:space-y-20">
+            <div>
               <WordReveal
                 as="p"
-                text="I am Ariana and I went into this industry to help other ambitious entrepreneurs like myself."
-                className="text-lg md:text-xl text-foreground/90 leading-relaxed mb-6"
+                text="Digital systems that get you noticed."
+                className="font-syne text-2xl sm:text-3xl md:text-4xl font-semibold text-foreground/90 leading-snug"
+                baseDelay={0.05}
+              />
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6">
+              <WordReveal
+                as="p"
+                text="Websites that convert."
+                className="font-syne text-xl sm:text-2xl font-semibold text-foreground/80 leading-snug"
+                baseDelay={0}
+              />
+              <WordReveal
+                as="p"
+                text="Lead gen that fills your calendar."
+                className="font-syne text-xl sm:text-2xl font-semibold text-foreground/80 leading-snug"
                 baseDelay={0.1}
               />
               <WordReveal
                 as="p"
-                text="In today's age, sometimes it feels like everyone is promising guaranteed success and ROI. They try to differentiate themselves from their competitors but honestly, for 99% of them, there is no difference. Most of them are incompetent, and now with AI, everyone thinks they are a software engineer, but they don't even know how to use it correctly."
-                className="text-lg md:text-xl text-foreground/90 leading-relaxed mb-6"
-                baseDelay={0.3}
+                text="Ads that only get paid when you do."
+                className="font-syne text-xl sm:text-2xl font-semibold text-foreground/80 leading-snug"
+                baseDelay={0.2}
               />
-              <WordReveal
-                as="p"
-                text="A lot of people looking for the help they offer have been burned, so they start trying to do things themselves. I get that, but that is because most victims looked at the most convenient or maybe even cheapest option in front of them without looking at the stats. They focused on the short-term and ended up losing right at that moment, and in the long-term."
-                className="text-lg md:text-xl text-foreground/90 leading-relaxed mb-6"
-                baseDelay={0.5}
-              />
-              <WordReveal
-                as="p"
-                text="We are not trying to sell you on just one project and then leave you to figure out the rest. We value building strong relationships with our clients so that we can grow together."
-                className="text-lg md:text-xl text-foreground/90 leading-relaxed mb-6"
-                baseDelay={0.7}
-              />
-              <WordReveal
-                as="p"
-                text="If you are ambitious and want to grow your business, we don't guarantee all our clients will achieve the same level of success, but how successful you are depends on how much you work for it."
-                className="text-lg md:text-xl text-foreground/90 leading-relaxed mb-8"
-                baseDelay={0.9}
-              />
-              <div className="flex items-center gap-4 mb-8">
-              <div className="h-px flex-1 bg-gradient-to-r from-foreground/20 to-transparent" />
-              <span className="text-foreground font-semibold italic text-lg">— Ariana</span>
-              </div>
-              <p className="text-2xl md:text-3xl font-bold text-foreground mb-3">Work with us. Grow with us.</p>
-              <p className="text-sm text-muted-foreground">Your future depends on what you do right now.</p>
             </div>
-          </motion.div>
+
+            <div className="pt-2 md:pt-4">
+              <div className="h-px w-full bg-gradient-to-r from-foreground/20 via-foreground/10 to-transparent mb-8 md:mb-10" />
+              <WordReveal
+                as="p"
+                text="We guarantee results."
+                className="font-syne text-3xl sm:text-4xl md:text-5xl font-bold text-foreground leading-snug mb-4"
+                baseDelay={0}
+              />
+              <WordReveal
+                as="p"
+                text="How good they get depends on how hard you work for it."
+                className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl"
+                baseDelay={0.15}
+              />
+            </div>
+          </div>
         </div>
       </div>
     </section>
