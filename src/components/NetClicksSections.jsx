@@ -67,91 +67,90 @@ export function FounderNote() {
     target: ref,
     offset: ["start end", "end start"],
   })
-  const line1Y = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [80, -40])
-  const line2Y = useTransform(scrollYProgress, [0, 1], reduce ? [0, 0] : [120, -80])
-  const line1Opacity = useTransform(scrollYProgress, [0, 0.2], reduce ? [1, 1] : [0, 1])
-  const line2Opacity = useTransform(scrollYProgress, [0.1, 0.3], reduce ? [1, 1] : [0, 1])
+  const line1Y = useTransform(scrollYProgress, [0.05, 0.5], reduce ? [0, 0] : [90, 0])
+  const line2Y = useTransform(scrollYProgress, [0.1, 0.6], reduce ? [0, 0] : [110, 0])
+  const line1Opacity = useTransform(scrollYProgress, [0.02, 0.2], reduce ? [1, 1] : [0, 1])
+  const line2Opacity = useTransform(scrollYProgress, [0.08, 0.3], reduce ? [1, 1] : [0, 1])
+
+  const services = [
+    { num: "01", text: "Websites that convert." },
+    { num: "02", text: "Lead gen that fills your calendar." },
+    { num: "03", text: "Ads that only get paid when you do." },
+  ]
 
   return (
-    <section id="founder" ref={ref} className="relative py-32 md:py-36 px-6 overflow-hidden">
+    <section id="founder" ref={ref} className="relative py-28 md:py-40 px-6 overflow-hidden">
       <div className="max-w-6xl mx-auto">
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.7 }}
-          className="mb-16 md:mb-20"
+          className="flex items-center gap-4 mb-12 md:mb-16"
         >
-          <span className="text-sm font-semibold uppercase tracking-widest text-muted-foreground block">
+          <span className="h-px w-12 md:w-16 bg-gradient-to-r from-[#00F2FF] via-[#8B5CF6] to-[#F472B6]" />
+          <span className="text-xs md:text-sm font-semibold uppercase tracking-[0.35em] text-muted-foreground">
             A Note From The Founder
           </span>
         </motion.div>
 
-        <div className="relative">
-          <motion.div
-            style={{ y: line1Y, opacity: line1Opacity }}
-            className="font-syne text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] font-bold leading-[1.05] tracking-tight text-foreground"
-          >
-            <span className="block overflow-hidden pb-[0.1em] -mb-[0.1em]">
-              I built NetClicks by Ari
-            </span>
-          </motion.div>
-          <motion.div
-            style={{ y: line2Y, opacity: line2Opacity }}
-            className="font-syne text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-[5.5rem] font-bold leading-[1.05] tracking-tight"
-          >
-            <span className="block overflow-hidden pb-[0.1em] -mb-[0.1em] bg-gradient-to-r from-[#00F2FF] via-[#8B5CF6] to-[#F472B6] bg-clip-text text-transparent">
-              for the ambitious ones.
-            </span>
-          </motion.div>
+        <motion.h2
+          style={{ y: line1Y, opacity: line1Opacity }}
+          className="font-syne text-[clamp(2.75rem,8.5vw,8.5rem)] font-extrabold leading-[0.92] tracking-[-0.03em] text-foreground"
+        >
+          <span className="block overflow-hidden pb-[0.08em] -mb-[0.08em]">
+            I built NetClicks
+          </span>
+        </motion.h2>
+        <motion.h2
+          style={{ y: line2Y, opacity: line2Opacity }}
+          className="font-syne text-[clamp(2.75rem,8.5vw,8.5rem)] font-extrabold leading-[0.92] tracking-[-0.03em]"
+        >
+          <span className="block overflow-hidden pb-[0.08em] -mb-[0.08em] bg-gradient-to-r from-[#00F2FF] via-[#8B5CF6] to-[#F472B6] bg-clip-text text-transparent">
+            by Ari for the ambitious ones.
+          </span>
+        </motion.h2>
 
-          <div className="mt-20 md:mt-28 space-y-14 md:space-y-20">
-            <div>
-              <WordReveal
-                as="p"
-                text="Digital systems that get you noticed."
-                className="font-syne text-2xl sm:text-3xl md:text-4xl font-semibold text-foreground/90 leading-snug"
-                baseDelay={0.05}
-              />
-            </div>
+        <div className="mt-14 md:mt-20">
+          <WordReveal
+            as="p"
+            text="Digital systems that get you noticed."
+            className="font-syne text-2xl md:text-4xl lg:text-[2.6rem] font-bold text-foreground/90 leading-tight tracking-[-0.02em]"
+            baseDelay={0.05}
+          />
+        </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 sm:gap-6">
-              <WordReveal
-                as="p"
-                text="Websites that convert."
-                className="font-syne text-xl sm:text-2xl font-semibold text-foreground/80 leading-snug"
-                baseDelay={0}
-              />
-              <WordReveal
-                as="p"
-                text="Lead gen that fills your calendar."
-                className="font-syne text-xl sm:text-2xl font-semibold text-foreground/80 leading-snug"
-                baseDelay={0.1}
-              />
-              <WordReveal
-                as="p"
-                text="Ads that only get paid when you do."
-                className="font-syne text-xl sm:text-2xl font-semibold text-foreground/80 leading-snug"
-                baseDelay={0.2}
-              />
-            </div>
+        <ul className="mt-14 md:mt-20 border-t border-border">
+          {services.map((s, i) => (
+            <li key={s.num} className="border-b border-border">
+              <div className="flex items-baseline gap-5 md:gap-10 py-6 md:py-8">
+                <span className="font-syne text-sm md:text-base font-bold bg-gradient-to-r from-[#00F2FF] via-[#8B5CF6] to-[#F472B6] bg-clip-text text-transparent">
+                  {s.num}
+                </span>
+                <WordReveal
+                  as="p"
+                  text={s.text}
+                  className="font-syne text-2xl md:text-4xl lg:text-[2.75rem] font-bold text-foreground leading-none tracking-[-0.02em]"
+                  baseDelay={i * 0.08}
+                />
+              </div>
+            </li>
+          ))}
+        </ul>
 
-            <div className="pt-2 md:pt-4">
-              <div className="h-px w-full bg-gradient-to-r from-foreground/20 via-foreground/10 to-transparent mb-8 md:mb-10" />
-              <WordReveal
-                as="p"
-                text="We guarantee results."
-                className="font-syne text-3xl sm:text-4xl md:text-5xl font-bold text-foreground leading-snug mb-4"
-                baseDelay={0}
-              />
-              <WordReveal
-                as="p"
-                text="How good they get depends on how hard you work for it."
-                className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-xl"
-                baseDelay={0.15}
-              />
-            </div>
-          </div>
+        <div className="mt-16 md:mt-24 max-w-3xl">
+          <WordReveal
+            as="p"
+            text="We guarantee results."
+            className="font-syne text-3xl md:text-5xl font-extrabold text-foreground leading-tight tracking-[-0.02em] mb-4"
+            baseDelay={0}
+          />
+          <WordReveal
+            as="p"
+            text="How good they get depends on how hard you work for it."
+            className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-md"
+            baseDelay={0.12}
+          />
         </div>
       </div>
     </section>

@@ -1,7 +1,9 @@
 import { useState, useEffect, useCallback } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 
-const FADE_TO_BLACK = 4.99
+// Flip to black 0.5s before the "dreams into reality" reveal so the baked
+// watermark frames are never visible on mobile.
+const FADE_TO_BLACK = 4.49
 
 const cues = [
   { id: 1, text: "Every business starts with a dream", start: 0.5, end: 4.99 },
@@ -12,20 +14,34 @@ export function VideoOverlays({ videoRef }) {
   const [activeId, setActiveId] = useState(null)
   const [fadedToBlack, setFadedToBlack] = useState(false)
 
-  const checkTime = useCallback(() => {
-    if (!videoRef?.current) return
-    const t = videoRef.current.currentTime
-    const active = cues.find((c) => t >= c.start && t <= c.end)
-    setActiveId(active ? active.id : null)
-    setFadedToBlack(t >= FADE_TO_BLACK)
-  }, [videoRef])
+  const evaluate = useCallback(
+    (t) => {
+      const active = cues.find((c) => t >= c.start && t <= c.end)
+      setActiveId((prev) => {
+        const next = active ? active.id : null
+        return prev === next ? prev : next
+      })
+      setFadedToBlack((prev) => {
+        const next = t >= FADE_TO_BLACK
+        return prev === next ? prev : next
+      })
+    },
+    []
+  )
 
   useEffect(() => {
     const vid = videoRef?.current
     if (!vid) return
-    vid.addEventListener("timeupdate", checkTime)
-    return () => vid.removeEventListener("timeupdate", checkTime)
-  }, [videoRef, checkTime])
+    let raf = 0
+    // Per-frame polling beats the 250ms-granular timeupdate event, so the
+    // black overlay flips the instant currentTime crosses the threshold.
+    const loop = () => {
+      evaluate(vid.currentTime)
+      raf = requestAnimationFrame(loop)
+    }
+    raf = requestAnimationFrame(loop)
+    return () => cancelAnimationFrame(raf)
+  }, [videoRef, evaluate])
 
   const activeCue = cues.find((c) => c.id === activeId)
 
