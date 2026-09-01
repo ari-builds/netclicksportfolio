@@ -12,3 +12,9 @@ preview.log
 
 # Local video files (not pushed to keep the repo lean)
 public/videos/clips/
+
+# Telegram bot - keep local venv/data/secrets out of the portfolio repo
+telegram-bot/.venv/
+telegram-bot/data.json
+telegram-bot/.env
+telegram-bot/__pycache__/

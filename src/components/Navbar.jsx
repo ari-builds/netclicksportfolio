@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { createPortal } from "react-dom"
 import { Link, useLocation, useNavigate } from "react-router-dom"
 import { motion, AnimatePresence } from "motion/react"
 import { Menu, X, ChevronDown, ArrowRight } from "lucide-react"
@@ -145,64 +146,67 @@ export function Navbar() {
         </div>
       </div>
 
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-[60] lg:hidden"
-          >
-            <div className="absolute inset-0 bg-background/90 backdrop-blur-xl" onClick={() => setMenuOpen(false)} />
+      {createPortal(
+        <AnimatePresence>
+          {menuOpen && (
             <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-              className="absolute right-0 top-0 h-full w-[20rem] max-w-[85vw] border-l border-border bg-card p-6 overflow-y-auto"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="fixed inset-0 z-[90] lg:hidden"
             >
-              <div className="flex items-center justify-between mb-8">
-                <span className="text-lg font-bold tracking-tight text-foreground">
-                  NET<span className="bg-gradient-to-r from-[#00F2FF] via-[#8B5CF6] to-[#F472B6] bg-clip-text text-transparent">CLICKS</span>
-                </span>
-                <button onClick={() => setMenuOpen(false)} className="p-2 rounded-full border border-border" aria-label="Close menu">
-                  <X className="w-5 h-5" />
-                </button>
-              </div>
-
-              <div className="mb-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">Services</div>
-              <div className="mb-6 flex flex-col gap-1">
-                {serviceCategories.map((cat) => (
-                  <Link
-                    key={cat.slug}
-                    to={`/${cat.slug}`}
-                    onClick={() => setMenuOpen(false)}
-                    className="flex items-center gap-3 rounded-xl p-3 transition-colors hover:bg-foreground/5"
-                  >
-                    <span className="h-8 w-8 rounded-lg text-sm font-bold text-white flex items-center justify-center" style={{ backgroundColor: cat.color }}>
-                      {cat.label[0]}
-                    </span>
-                    <span className="text-sm font-semibold text-foreground">{cat.label}</span>
-                  </Link>
-                ))}
-              </div>
-
-              <div className="mb-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">More</div>
-              <div className="flex flex-col gap-1">
-                {[...navAnchor, { label: "Book a Call", id: "cta" }].map((l) => (
-                  <button
-                    key={l.id}
-                    onClick={() => goToAnchor(l.id)}
-                    className="rounded-xl p-3 text-left text-sm font-semibold text-foreground transition-colors hover:bg-foreground/5"
-                  >
-                    {l.label}
+              <div className="absolute inset-0 bg-background/90 backdrop-blur-xl" onClick={() => setMenuOpen(false)} />
+              <motion.div
+                initial={{ x: "100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "100%" }}
+                transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
+                className="absolute right-0 top-0 h-full w-[20rem] max-w-[85vw] border-l border-border bg-card p-6 overflow-y-auto"
+              >
+                <div className="flex items-center justify-between mb-8">
+                  <span className="text-lg font-bold tracking-tight text-foreground">
+                    NET<span className="bg-gradient-to-r from-[#00F2FF] via-[#8B5CF6] to-[#F472B6] bg-clip-text text-transparent">CLICKS</span>
+                  </span>
+                  <button onClick={() => setMenuOpen(false)} className="p-2 rounded-full border border-border" aria-label="Close menu">
+                    <X className="w-5 h-5" />
                   </button>
-                ))}
-              </div>
+                </div>
+
+                <div className="mb-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">Services</div>
+                <div className="mb-6 flex flex-col gap-1">
+                  {serviceCategories.map((cat) => (
+                    <Link
+                      key={cat.slug}
+                      to={`/${cat.slug}`}
+                      onClick={() => setMenuOpen(false)}
+                      className="flex items-center gap-3 rounded-xl p-3 transition-colors hover:bg-foreground/5"
+                    >
+                      <span className="h-8 w-8 rounded-lg text-sm font-bold text-white flex items-center justify-center" style={{ backgroundColor: cat.color }}>
+                        {cat.label[0]}
+                      </span>
+                      <span className="text-sm font-semibold text-foreground">{cat.label}</span>
+                    </Link>
+                  ))}
+                </div>
+
+                <div className="mb-2 text-xs font-semibold uppercase tracking-widest text-muted-foreground">More</div>
+                <div className="flex flex-col gap-1">
+                  {[...navAnchor, { label: "Book a Call", id: "cta" }].map((l) => (
+                    <button
+                      key={l.id}
+                      onClick={() => goToAnchor(l.id)}
+                      className="rounded-xl p-3 text-left text-sm font-semibold text-foreground transition-colors hover:bg-foreground/5"
+                    >
+                      {l.label}
+                    </button>
+                  ))}
+                </div>
+              </motion.div>
             </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+          )}
+        </AnimatePresence>,
+        document.body,
+      )}
     </header>
   )
 }

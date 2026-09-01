@@ -1,13 +1,21 @@
 import { useRef, useState, useEffect } from "react"
 import { motion } from "motion/react"
-import { ArrowUpRight, Loader2 } from "lucide-react"
+import { ArrowUpRight, Loader2, Play } from "lucide-react"
 
-export function LivePreview({ url, name, className = "", height = 640, badgeColor = "#8B5CF6", category = "" }) {
-  const [loading, setLoading] = useState(true)
+export function LivePreview({
+  url,
+  name,
+  className = "",
+  height = 640,
+  badgeColor = "#8B5CF6",
+  category = "",
+  screenshot = "",
+}) {
+  const [active, setActive] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [visible, setVisible] = useState(() => !("IntersectionObserver" in window))
   const [error, setError] = useState(false)
   const ref = useRef(null)
-  const loadedRef = useRef(null)
 
   useEffect(() => {
     if (!("IntersectionObserver" in window)) {
@@ -29,6 +37,11 @@ export function LivePreview({ url, name, className = "", height = 640, badgeColo
     io.observe(el)
     return () => io.disconnect()
   }, [])
+
+  const activate = () => {
+    setActive(true)
+    setLoading(true)
+  }
 
   return (
     <motion.div
@@ -57,10 +70,28 @@ export function LivePreview({ url, name, className = "", height = 640, badgeColo
           <span className="ml-3 flex-1 truncate text-[11px] text-muted-foreground/70">{url}</span>
         </div>
         <div className="relative h-[calc(100%-2rem)] w-full">
-          {visible && !error ? (
+          {!active && visible && screenshot ? (
+            <div className="group/clip relative h-full w-full overflow-hidden bg-white">
+              <img
+                src={screenshot}
+                alt={`${name} website preview`}
+                loading="lazy"
+                className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.02]"
+              />
+              <div className="absolute inset-0 flex items-end justify-center bg-gradient-to-t from-black/60 via-black/10 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                <button
+                  type="button"
+                  onClick={activate}
+                  className="inline-flex items-center gap-2 rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-black shadow-lg transition-transform hover:scale-105"
+                >
+                  <Play className="w-4 h-4" /> Load live preview
+                </button>
+              </div>
+            </div>
+          ) : active && !error ? (
             <>
               <iframe
-                ref={loadedRef}
+                key={url}
                 title={name}
                 src={url}
                 loading="lazy"
@@ -79,7 +110,7 @@ export function LivePreview({ url, name, className = "", height = 640, badgeColo
                 </div>
               )}
             </>
-          ) : visible && error ? (
+          ) : active && error ? (
             <div className="flex h-full w-full items-center justify-center p-8 text-center">
               <p className="text-sm text-muted-foreground">
                 This site can&apos;t be previewed inline. Open the real site directly.

@@ -44,4 +44,13 @@ export const realWork = [
     url: "https://jsbarbershop.lovable.app",
     color: "#8b9cf6",
   },
+  {
+    slug: "shay-crawford",
+    name: "Shay Crawford Realty",
+    category: "Websites",
+    industry: "Real estate, luxury property, Keller Williams",
+    location: "Houston, TX",
+    url: "https://ari-builds.github.io/shay-crawford/",
+    color: "#c5a059",
+  },
 ]

@@ -35,6 +35,7 @@ export default function ClientWork() {
                   name={work.name}
                   badgeColor={work.color}
                   category={work.category}
+                  screenshot={`/netclicksportfolio/screenshots/${work.slug}.jpg`}
                   height={i % 2 === 0 ? 520 : 448}
                 />
               </CameraPass>

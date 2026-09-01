@@ -2,10 +2,12 @@ import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { VideoOverlays } from "@/components/VideoOverlays"
 
-export function OpeningVideo({ videoSrc = "/netclicksportfolio/videos/opening.mp4", duration = 42000 }) {
+export function OpeningVideo({ videoSrc = "/netclicksportfolio/videos/opening.mp4", posterSrc = "/netclicksportfolio/videos/opening-poster.jpg", duration = 42000 }) {
   const [show, setShow] = useState(true)
   const [fading, setFading] = useState(false)
   const [played, setPlayed] = useState(false)
+  const [ready, setReady] = useState(false)
+  const [videoOn, setVideoOn] = useState(false)
   const videoRef = useRef(null)
 
   useEffect(() => {
@@ -16,6 +18,26 @@ export function OpeningVideo({ videoSrc = "/netclicksportfolio/videos/opening.mp
     }, duration)
     return () => clearTimeout(timer)
   }, [duration, played])
+
+  useEffect(() => {
+    const t = setTimeout(() => setReady(true), 200)
+    return () => clearTimeout(t)
+  }, [])
+
+  useEffect(() => {
+    if (!ready || !videoRef.current) return
+    videoRef.current?.play().catch(() => {})
+  }, [ready])
+
+  const handleLoadedData = () => {
+    // Fade the video in only once it's actually decoded and playing, so the
+    // black screen is guaranteed to be up before any frame shows.
+    setVideoOn(true)
+  }
+
+  const handlePlaying = () => {
+    setVideoOn(true)
+  }
 
   const handleEnded = () => {
     setPlayed(true)
@@ -41,14 +63,18 @@ export function OpeningVideo({ videoSrc = "/netclicksportfolio/videos/opening.mp
         >
           <video
             ref={videoRef}
-            autoPlay
             playsInline
             muted
-            className="w-full h-full object-cover"
+            preload="auto"
+            poster={posterSrc}
+            className="h-full w-full object-cover"
+            style={{ opacity: videoOn ? 1 : 0, transition: "opacity 0.6s ease" }}
+            onLoadedData={handleLoadedData}
+            onPlaying={handlePlaying}
             onEnded={handleEnded}
             onError={handleEnded}
           >
-            <source src={videoSrc} type="video/mp4" />
+            {ready && <source src={videoSrc} type="video/mp4" />}
           </video>
 
           <VideoOverlays videoRef={videoRef} />

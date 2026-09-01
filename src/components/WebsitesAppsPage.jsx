@@ -88,6 +88,7 @@ export default function WebsitesAppsPage() {
               name={work.name}
               badgeColor={work.color}
               category={work.category}
+              screenshot={`/netclicksportfolio/screenshots/${work.slug}.jpg`}
               height={i % 2 === 0 ? 600 : 520}
             />
           ))}
