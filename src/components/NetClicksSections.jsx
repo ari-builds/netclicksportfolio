@@ -96,7 +96,7 @@ export function FounderNote() {
 
         <motion.h2
           style={{ y: line1Y, opacity: line1Opacity }}
-          className="font-syne text-[clamp(2.75rem,8.5vw,8.5rem)] font-extrabold leading-[0.92] tracking-[-0.03em] text-foreground"
+          className="font-syne text-[clamp(2.75rem,8.5vw,8.5rem)] font-bold leading-[0.92] tracking-[-0.02em] text-foreground"
         >
           <span className="block overflow-hidden pb-[0.08em] -mb-[0.08em]">
             I built NetClicks
@@ -104,7 +104,7 @@ export function FounderNote() {
         </motion.h2>
         <motion.h2
           style={{ y: line2Y, opacity: line2Opacity }}
-          className="font-syne text-[clamp(2.75rem,8.5vw,8.5rem)] font-extrabold leading-[0.92] tracking-[-0.03em]"
+          className="font-syne text-[clamp(2.75rem,8.5vw,8.5rem)] font-bold leading-[0.92] tracking-[-0.02em]"
         >
           <span className="block overflow-hidden pb-[0.08em] -mb-[0.08em] bg-gradient-to-r from-[#00F2FF] via-[#8B5CF6] to-[#F472B6] bg-clip-text text-transparent">
             by Ari for the ambitious ones.
@@ -142,7 +142,7 @@ export function FounderNote() {
           <WordReveal
             as="p"
             text="We guarantee results."
-            className="font-syne text-3xl md:text-5xl font-extrabold text-foreground leading-tight tracking-[-0.02em] mb-4"
+            className="font-syne text-3xl md:text-5xl font-bold text-foreground leading-tight tracking-[-0.02em] mb-4"
             baseDelay={0}
           />
           <WordReveal
