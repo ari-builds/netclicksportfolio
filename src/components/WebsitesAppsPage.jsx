@@ -6,6 +6,8 @@ import { serviceCategories } from "../svc/ServiceConfig"
 import { Reveal } from "./motion/Reveal"
 import { LivePreview } from "./LivePreview"
 
+const baseUrl = import.meta.env.BASE_URL || "/"
+
 const iconMap = {
   palette: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.7} className="w-6 h-6"><path d="M12 22a10 10 0 100-20 10 10 0 000 20z" /></svg>,
   code: <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={1.7} className="w-6 h-6"><path d="M16 18l6-6-6-6M8 6l-6 6 6 6" /></svg>,
@@ -88,7 +90,7 @@ export default function WebsitesAppsPage() {
               name={work.name}
               badgeColor={work.color}
               category={work.category}
-              screenshot={`/netclicksportfolio/screenshots/${work.slug}.jpg`}
+              screenshot={`${baseUrl}screenshots/${work.slug}.jpg`}
               height={i % 2 === 0 ? 600 : 520}
             />
           ))}
