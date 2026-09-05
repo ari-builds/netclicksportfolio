@@ -43,8 +43,7 @@ function RedirectHandler() {
     const redirect = sessionStorage.getItem("redirect")
     if (redirect) {
       sessionStorage.removeItem("redirect")
-      const path = redirect.replace("/netclicksportfolio", "")
-      navigate(path, { replace: true })
+      navigate(redirect, { replace: true })
     }
   }, [navigate])
   return null
@@ -81,7 +80,7 @@ function HomePage() {
 
 function App() {
   return (
-    <BrowserRouter basename="/netclicksportfolio">
+    <BrowserRouter>
       <ScrollProgress />
       <RedirectHandler />
       <ScrollOnNavigate />
