@@ -6,6 +6,8 @@ import { SectionTitle } from "./motion/SectionTitle"
 import { Reveal } from "./motion/Reveal"
 import { CameraPass } from "./motion/CameraPass"
 
+const baseUrl = import.meta.env.BASE_URL || "/"
+
 export default function ClientWork() {
   return (
     <section id="work" className="relative py-24 md:py-32">
@@ -35,7 +37,7 @@ export default function ClientWork() {
                   name={work.name}
                   badgeColor={work.color}
                   category={work.category}
-                  screenshot={`/netclicksportfolio/screenshots/${work.slug}.jpg`}
+                  screenshot={`${baseUrl}screenshots/${work.slug}.jpg`}
                   height={i % 2 === 0 ? 520 : 448}
                 />
               </CameraPass>

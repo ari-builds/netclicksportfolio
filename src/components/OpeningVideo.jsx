@@ -2,7 +2,13 @@ import { useState, useRef, useEffect } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { VideoOverlays } from "@/components/VideoOverlays"
 
-export function OpeningVideo({ videoSrc = "/netclicksportfolio/videos/opening.mp4", posterSrc = "/netclicksportfolio/videos/opening-poster.jpg", duration = 42000 }) {
+const baseUrl = import.meta.env.BASE_URL || "/"
+
+export function OpeningVideo({
+  videoSrc = `${baseUrl}videos/opening.mp4`,
+  posterSrc = `${baseUrl}videos/opening-poster.jpg`,
+  duration = 42000,
+}) {
   const [show, setShow] = useState(true)
   const [fading, setFading] = useState(false)
   const [played, setPlayed] = useState(false)
