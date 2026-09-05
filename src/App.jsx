@@ -1,5 +1,5 @@
 import { useEffect, lazy, Suspense } from "react"
-import { HashRouter, Routes, Route, useNavigate, useLocation } from "react-router-dom"
+import { BrowserRouter, Routes, Route, useNavigate, useLocation } from "react-router-dom"
 import { Hero } from "@/components/Hero"
 import CategoryOverview from "@/components/CategoryOverview"
 import CategoryPage from "@/components/CategoryPage"
@@ -43,9 +43,7 @@ function RedirectHandler() {
     const redirect = sessionStorage.getItem("redirect")
     if (redirect) {
       sessionStorage.removeItem("redirect")
-      const currentPath = window.location.pathname.replace(/\/$/, "")
-      const path = currentPath && redirect.startsWith(currentPath) ? redirect.slice(currentPath.length) : redirect
-      navigate(path, { replace: true })
+      navigate(redirect, { replace: true })
     }
   }, [navigate])
   return null
@@ -82,7 +80,7 @@ function HomePage() {
 
 function App() {
   return (
-    <HashRouter>
+    <BrowserRouter>
       <ScrollProgress />
       <RedirectHandler />
       <ScrollOnNavigate />
@@ -99,7 +97,7 @@ function App() {
         <Route path="*" element={<HomePage />} />
       </Routes>
       <Footer />
-    </HashRouter>
+    </BrowserRouter>
   )
 }
 

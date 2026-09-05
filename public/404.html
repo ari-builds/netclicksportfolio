@@ -6,8 +6,7 @@
   <script>
     (function () {
       sessionStorage.redirect = location.pathname + location.search + location.hash;
-      var root = location.pathname.replace(/\/[^/]*$/, "/");
-      location.replace(root);
+      location.replace("/");
     })();
   </script>
 </head>
