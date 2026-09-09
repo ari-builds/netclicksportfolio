@@ -40,8 +40,8 @@ export function Footer() {
           <p className="text-xs text-muted-foreground/60">
             &copy; {new Date().getFullYear()} NetClicks. All rights reserved.
           </p>
-          <p className="text-xs text-muted-foreground/40">
-            Music: "Supernatural" by Sascha Ende, CC BY 4.0
+          <p className="text-xs text-muted-foreground/40 text-center">
+            In-app preview disclaimer: Demos are shown only in-app to protect privacy and deliver the best user experience.
           </p>
         </div>
       </div>

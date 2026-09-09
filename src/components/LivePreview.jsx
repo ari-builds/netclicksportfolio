@@ -127,7 +127,7 @@ export function LivePreview({
           <p className="text-xs text-muted-foreground">Live preview {category ? `· ${category}` : ""}</p>
         </div>
         <span className="inline-flex items-center rounded-full border border-border bg-background px-4 py-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
-          In-app preview only
+          In-app preview
         </span>
       </div>
     </motion.div>
