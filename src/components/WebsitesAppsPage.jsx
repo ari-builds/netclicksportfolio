@@ -79,7 +79,7 @@ export default function WebsitesAppsPage() {
 
         <div className="mt-16">
           <h2 className="text-2xl md:text-3xl font-bold tracking-tight">Real client websites</h2>
-          <p className="mt-2 text-sm text-muted-foreground">Live previews of sites we&apos;ve shipped. Browse them here, or open the real site.</p>
+          <p className="mt-2 text-sm text-muted-foreground">Live previews of sites we&apos;ve shipped. Browse each preview directly here.</p>
         </div>
 
         <div className="mt-8 grid md:grid-cols-2 gap-8">

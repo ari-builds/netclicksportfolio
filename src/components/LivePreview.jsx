@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react"
 import { motion } from "motion/react"
-import { ArrowUpRight, Loader2, Play } from "lucide-react"
+import { Loader2, Play } from "lucide-react"
 
 export function LivePreview({
   url,
@@ -67,7 +67,7 @@ export function LivePreview({
           <span className="w-2.5 h-2.5 rounded-full bg-foreground/15" />
           <span className="w-2.5 h-2.5 rounded-full bg-foreground/15" />
           <span className="w-2.5 h-2.5 rounded-full bg-foreground/15" />
-          <span className="ml-3 flex-1 truncate text-[11px] text-muted-foreground/70">{url}</span>
+          <span className="ml-3 flex-1 truncate text-[11px] text-muted-foreground/70">Live preview</span>
         </div>
         <div className="relative h-[calc(100%-2rem)] w-full">
           {!active && visible && screenshot ? (
@@ -112,9 +112,7 @@ export function LivePreview({
             </>
           ) : active && error ? (
             <div className="flex h-full w-full items-center justify-center p-8 text-center">
-              <p className="text-sm text-muted-foreground">
-                This site can&apos;t be previewed inline. Open the real site directly.
-              </p>
+              <p className="text-sm text-muted-foreground">This preview is currently unavailable.</p>
             </div>
           ) : (
             <div className="flex h-full w-full items-center justify-center bg-card/60">
@@ -128,14 +126,9 @@ export function LivePreview({
           <h3 className="text-lg font-bold text-foreground">{name}</h3>
           <p className="text-xs text-muted-foreground">Live preview {category ? `· ${category}` : ""}</p>
         </div>
-        <a
-          href={url}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="inline-flex items-center gap-1.5 rounded-full border border-border bg-background px-4 py-2 text-sm font-semibold text-foreground transition-colors hover:text-primary"
-        >
-          Open site <ArrowUpRight className="w-4 h-4" />
-        </a>
+        <span className="inline-flex items-center rounded-full border border-border bg-background px-4 py-2 text-xs font-semibold uppercase tracking-wide text-muted-foreground">
+          In-app preview only
+        </span>
       </div>
     </motion.div>
   )

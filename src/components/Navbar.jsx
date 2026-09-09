@@ -42,7 +42,6 @@ export function Navbar() {
   }
 
   const navAnchor = [
-    { label: "Results", id: "impact" },
     { label: "Founder", id: "founder" },
     { label: "Partners", id: "partners" },
     { label: "FAQ", id: "faq" },
