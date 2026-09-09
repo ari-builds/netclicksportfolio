@@ -37,11 +37,11 @@ export const realWork = [
   },
   {
     slug: "js-barber-shop",
-    name: "J's Barber Shop",
+    name: "I Do Windows",
     category: "Websites",
-    industry: "Barbershop, haircuts, beard grooming",
-    location: "Dracut, MA",
-    url: "https://jsbarbershop.lovable.app",
+    industry: "Window cleaning services",
+    location: "USA",
+    url: "https://idowindowsdemo.lovable.app/",
     color: "#8b9cf6",
   },
   {

@@ -6,15 +6,16 @@ const baseUrl = import.meta.env.BASE_URL || "/"
 
 export function OpeningVideo({
   videoSrc = `${baseUrl}videos/opening.mp4`,
+  fallbackVideoSrc = `${baseUrl}videos/launch-demo.mp4`,
   posterSrc = `${baseUrl}videos/opening-poster.jpg`,
   duration = 42000,
 }) {
   const [show, setShow] = useState(true)
   const [fading, setFading] = useState(false)
   const [played, setPlayed] = useState(false)
-  const [ready, setReady] = useState(false)
-  const [videoOn, setVideoOn] = useState(false)
+  const [primaryFailed, setPrimaryFailed] = useState(false)
   const videoRef = useRef(null)
+  const activeSrc = primaryFailed ? fallbackVideoSrc : videoSrc
 
   useEffect(() => {
     if (played) return
@@ -26,24 +27,32 @@ export function OpeningVideo({
   }, [duration, played])
 
   useEffect(() => {
-    const t = setTimeout(() => setReady(true), 200)
-    return () => clearTimeout(t)
-  }, [])
+    if (!videoRef.current) return
+    let cancelled = false
 
-  useEffect(() => {
-    if (!ready || !videoRef.current) return
-    videoRef.current?.play().catch(() => {})
-  }, [ready])
+    const tryPlay = (attempt = 0) => {
+      if (cancelled || !videoRef.current) return
+      videoRef.current.play().catch(() => {
+        if (attempt < 3) {
+          setTimeout(() => tryPlay(attempt + 1), 250 * (attempt + 1))
+        }
+      })
+    }
 
-  const handleLoadedData = () => {
-    // Fade the video in only once it's actually decoded and playing, so the
-    // black screen is guaranteed to be up before any frame shows.
-    setVideoOn(true)
-  }
+    tryPlay()
 
-  const handlePlaying = () => {
-    setVideoOn(true)
-  }
+    const onVisibility = () => {
+      if (document.visibilityState === "visible") {
+        tryPlay()
+      }
+    }
+
+    document.addEventListener("visibilitychange", onVisibility)
+    return () => {
+      cancelled = true
+      document.removeEventListener("visibilitychange", onVisibility)
+    }
+  }, [activeSrc])
 
   const handleEnded = () => {
     setPlayed(true)
@@ -71,16 +80,20 @@ export function OpeningVideo({
             ref={videoRef}
             playsInline
             muted
+            autoPlay
             preload="auto"
             poster={posterSrc}
             className="h-full w-full object-cover"
-            style={{ opacity: videoOn ? 1 : 0, transition: "opacity 0.6s ease" }}
-            onLoadedData={handleLoadedData}
-            onPlaying={handlePlaying}
             onEnded={handleEnded}
-            onError={handleEnded}
+            onError={() => {
+              if (!primaryFailed) {
+                setPrimaryFailed(true)
+                return
+              }
+              handleEnded()
+            }}
           >
-            {ready && <source src={videoSrc} type="video/mp4" />}
+            <source src={activeSrc} type="video/mp4" />
           </video>
 
           <VideoOverlays videoRef={videoRef} />
